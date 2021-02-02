@@ -1,7 +1,8 @@
-'use strict';
-const crypto = require('crypto');
-const bcrypt = require('bcrypt');
-const SALT_MAIL_ID = 'kQALCJjfGxvOXi8GBmEKz0zOWr6StNSD';
+'use strict'
+const crypto = require('crypto')
+const bcrypt = require('bcrypt')
+const SALT_MAIL_ID = 'kQALCJjfGxvOXi8GBmEKz0zOWr6StNSD'
+const SALT_COOKIES = 'YvzkQuweviQ0R0GQ4uD8lXeGSxpFizYK'
 
 function encrypt(salt, text) {
   let iv = crypto.randomBytes(16);
@@ -41,11 +42,15 @@ function isMatchPassword(password, hash) {
 
 const encryptMailId = (id) => encrypt(SALT_MAIL_ID, id)
 const decryptMailId = (id) => decrypt(SALT_MAIL_ID, id)
-
+const encryptCookie = (data) => encrypt(SALT_COOKIES, data)
+const decryptCookie = (data) => decrypt(SALT_COOKIES, data)
+const genSalt = () => bcrypt.genSaltSync(5);
 
 module.exports = {
   encryptMailId,
   decryptMailId,
-  encryptPassword,
+  encryptCookie,
+  decryptCookie,
+  genSalt,
   isMatchPassword
 };

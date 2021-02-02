@@ -1,4 +1,3 @@
-const {createError} = require('./utils')
 const Imap = require('imap')
 const {PASSWORD} = require('./serverConfig')
 const {encryptMailId, decryptMailId} = require('./cryptoUtils')
@@ -37,7 +36,7 @@ const getUids = (to, imap) => (
 )
 
 const getMessages = (to) => (
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
     const imap = getImap(to)
     getUids(to, imap)
       .then(uids => {
@@ -48,7 +47,7 @@ const getMessages = (to) => (
 
             f.on('message', function (msg) {
               let messageInfo = {}
-              msg.on('body', function (stream, info) {
+              msg.on('body', function (stream) {
                 let buffer = ''
 
                 stream.on('data', function (chunk) {
@@ -95,18 +94,10 @@ const getMailBody = (to, uid) => (
     try {
       uid = decryptMailId(uid)
     } catch (e) {
-      return reject(createError('uid is invalid'))
+      return reject('uid is invalid')
     }
 
-    const domain = to.split('@')[1]
-    const imap = new Imap({
-      user: `test@${domain}`,
-      password: PASSWORD,
-      host: `imap.${domain}`,
-      port: 143,
-      tls: false
-    })
-
+    const imap = getImap(to)
     let mailBody
 
     imap.once('ready', () => {
