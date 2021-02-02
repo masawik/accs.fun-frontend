@@ -1,13 +1,15 @@
-const {getHashByLogin, setCookieByLogin} = require("./DB")
+const {getHashByLogin, setCookieByLogin, getCookieByLogin} = require("./DB")
 const {getMessages, getMailBody} = require("./imap")
 const {DOMAINS} = require('./serverConfig')
 const {isMatchPassword, genSalt} = require('./cryptoUtils')
 const express = require('express')
 const {createError} = require('./utils')
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser');
 
 const app = express()
 app.use(bodyParser.json())
+app.use(cookieParser());
 
 // todo убрать. это только для теста
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -62,6 +64,26 @@ app.post('/login', (req, res) => {
     })
     .catch(e => {
       return res.json(createError(e))
+    })
+})
+
+app.get('/get-user-data', (req, res) => {
+  if (!req.cookies.login) return res.json(createError('unauthorized'))
+  const login = req.cookies.login
+
+  getCookieByLogin(login)
+    .then(key => {
+      if (key !== req.cookies.key) {
+        res.clearCookie('login')
+        res.clearCookie('key')
+        return res.json(createError('unauthorized'))
+      }
+
+      return res.json({success: true, login: login})
+    })
+    .catch(e => {
+      console.log('error')
+      res.json(createError(e))
     })
 })
 
