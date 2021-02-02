@@ -9,9 +9,7 @@ const cookieParser = require('cookie-parser');
 
 const app = express()
 app.use(bodyParser.json())
-app.use(cookieParser());
-
-// todo убрать. это только для теста
+app.use(cookieParser())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 const port = 8989

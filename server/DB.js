@@ -23,7 +23,7 @@ const getHashByLogin = (login) => (
 const setCookieByLogin = (login, cookie) => (
   new Promise((resolve, reject) => {
     const connection = getConn()
-    connection.query(`UPDATE \`users\` SET \`cookie\`='${cookie}' WHERE \`login\` = '${login}'`, function (error, results) {
+    connection.query(`UPDATE \`users\` SET \`cookie\`='${cookie}' WHERE \`login\` = '${login}'`, function (error) {
       connection.end()
       if (error) return reject(error)
       return resolve()
