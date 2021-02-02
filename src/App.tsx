@@ -4,7 +4,7 @@ import LoginForm from "./components/LoginForm/LoginForm";
 const App: React.FC = () => {
   return (
     <div className='container'>
-      <LoginForm/>
+      <LoginForm />
     </div>
   )
 }

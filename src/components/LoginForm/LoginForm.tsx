@@ -2,10 +2,8 @@ import React, {ChangeEvent, FormEvent, useState} from 'react'
 import cn from 'classnames'
 
 const LoginForm: React.FC = () => {
-
   const [login, setLogin] = useState('')
   const [loginError, setLoginError] = useState<string | false>(false)
-
   const [domain, setDomain] = useState('egsabuser.mcdir.ru')
   const [password, setPassword] = useState('')
 
@@ -16,6 +14,7 @@ const LoginForm: React.FC = () => {
     'egsaccount.mcdir.ru',
     'egsfarm.mcdir.ru'
   ]
+
   const $domains = DOMAINS.map((i) => (
     <option key={i} value={i}>{i}</option>
   ))
