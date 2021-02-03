@@ -1,14 +1,14 @@
 import React, {ChangeEvent, FormEvent, useState} from 'react'
 import cn from 'classnames'
 import {connect} from "react-redux";
-import {onLogin} from "../../redux/user/userActions";
+// import {onLogin} from "../../redux/user/userActions";
 import {TLoginData} from "../../redux/user/userTypes";
 
 type TLoginFormProps = {
   onLogin: (data: TLoginData) => void
 }
 
-const LoginForm: React.FC<TLoginFormProps> = ({onLogin}) => {
+const LoginForm: React.FC = () => {
   const [login, setLogin] = useState('')
   const [loginError, setLoginError] = useState<string | false>(false)
   const [domain, setDomain] = useState('egsabuser.mcdir.ru')
@@ -49,10 +49,10 @@ const LoginForm: React.FC<TLoginFormProps> = ({onLogin}) => {
     e.preventDefault()
     const fullLogin = `${login}@${domain}`
 
-    onLogin({
-      login: fullLogin,
-      password: password
-    })
+    // onLogin({
+    //   login: fullLogin,
+    //   password: password
+    // })
   }
 
   return (
@@ -111,8 +111,8 @@ const LoginForm: React.FC<TLoginFormProps> = ({onLogin}) => {
   )
 }
 
-const mapDispatchToProps = (dispatch: any) => ({
-  onLogin: (data: TLoginData) => dispatch(onLogin(data))
-})
+// const mapDispatchToProps = (dispatch: any) => ({
+//   onLogin: (data: TLoginData) => dispatch(onLogin(data))
+// })
 
-export default connect(null, mapDispatchToProps)(LoginForm)
+export default connect(null, null)(LoginForm)

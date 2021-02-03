@@ -11,9 +11,13 @@ export enum EResponseCodes {
   unauthorized = 7
 }
 
-type TResponse = {
+type TNeedLogin = {
+  needLogin: boolean
+}
+
+type TResponse<T> = {
   code: EResponseCodes,
-  data: any
+  data: T
 }
 
 const instance = axios.create({
@@ -21,7 +25,9 @@ const instance = axios.create({
 })
 
 export const userAPI = {
-  
+  needLogin() {
+    return instance.get<TResponse<TNeedLogin>>('/need-login').then(res => res.data)
+  },
 }
 
 
