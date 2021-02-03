@@ -7,7 +7,7 @@ type TLayoutProps = {
   children: any,
   isFetching: boolean
 }
-
+//todo добавить алерты
 const Layout: React.FC<TLayoutProps> = ({children, isFetching}) => {
   return (
     <div>

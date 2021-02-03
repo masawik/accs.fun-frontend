@@ -60,6 +60,8 @@ app.get('/get-body', (req, res) => {
     )
 })
 
+//todo увеличить время жизни кук
+//todo сделать сессии
 app.post('/login', (req, res) => {
   const {login, password} = req.body
   if (isToInvalid(login) || !password || password.length < 5) return res.json(createResponse(5))

@@ -4,6 +4,7 @@ import {TRootState} from "./redux/rootReducer";
 import {connect, MapDispatchToProps, MapStateToProps} from "react-redux";
 import Layout from "./components/Layout/Layout";
 import {init} from "./redux/init/initActions";
+import WorkSpace from "./components/WorkSpace/WorkSpace";
 
 type TAppProps = TStateProps & TDispatchProps
 
@@ -18,7 +19,7 @@ const App: React.FC<TAppProps> = ({login, onInit}) => {
       <div className='container'>
         {
           login
-            ? <div>авторизирован как {login}</div>
+            ? <WorkSpace/>
             : <LoginForm/>
         }
       </div>
