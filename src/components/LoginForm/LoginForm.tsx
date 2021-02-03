@@ -1,18 +1,17 @@
-import React, {ChangeEvent, FormEvent, useState} from 'react'
+import React, {ChangeEvent, Dispatch, FormEvent, useState} from 'react'
 import cn from 'classnames'
 import {connect} from "react-redux";
-// import {onLogin} from "../../redux/user/userActions";
+import {onLogin} from "../../redux/user/userActions";
 import {TLoginData} from "../../redux/user/userTypes";
+import {TRootState} from "../../redux/rootReducer";
 
-type TLoginFormProps = {
-  onLogin: (data: TLoginData) => void
-}
+type TLoginFormProps = TMapDispatchToProps & TMapStateToProps
 
-const LoginForm: React.FC = () => {
-  const [login, setLogin] = useState('')
+const LoginForm: React.FC<TLoginFormProps> = ({onLogin, isFetching, errorMessage}) => {
+  const [login, setLogin] = useState('samanthacasexu')
   const [loginError, setLoginError] = useState<string | false>(false)
   const [domain, setDomain] = useState('egsabuser.mcdir.ru')
-  const [password, setPassword] = useState('')
+  const [password, setPassword] = useState('l6fm3uGlwR')
 
   const DOMAINS = [
     'egsabuser.mcdir.ru',
@@ -48,11 +47,10 @@ const LoginForm: React.FC = () => {
   const formSubmit = (e: FormEvent): void => {
     e.preventDefault()
     const fullLogin = `${login}@${domain}`
-
-    // onLogin({
-    //   login: fullLogin,
-    //   password: password
-    // })
+    onLogin({
+      login: fullLogin,
+      password: password
+    })
   }
 
   return (
@@ -60,6 +58,11 @@ const LoginForm: React.FC = () => {
       onSubmit={formSubmit}
       className='col-sm-10 col-md-8 col-lg-6 offset-sm-1 offset-md-2 offset-lg-3 mt-5'
     >
+      {
+        errorMessage
+          ? <div className="alert alert-danger" role="alert">{errorMessage}</div>
+          : null
+      }
       <div className="input-group mb-3">
         <input
           value={login}
@@ -71,6 +74,7 @@ const LoginForm: React.FC = () => {
           )}
           id="login"
           required
+          disabled={isFetching}
         />
 
         <span className="input-group-text">@</span>
@@ -81,6 +85,7 @@ const LoginForm: React.FC = () => {
             setDomain(e.target.value)
           }}
           className="form-select"
+          disabled={isFetching}
         >
           {$domains}
         </select>
@@ -99,20 +104,40 @@ const LoginForm: React.FC = () => {
           className="form-control"
           id='password'
           required
+          disabled={isFetching}
         />
       </div>
 
       <button
         type="submit"
         className="btn btn-primary"
-      >Submit
+        disabled={isFetching}
+      >
+        {
+          isFetching
+            ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>
+            : 'Log in'
+        }
       </button>
     </form>
   )
 }
 
-// const mapDispatchToProps = (dispatch: any) => ({
-//   onLogin: (data: TLoginData) => dispatch(onLogin(data))
-// })
+type TMapStateToProps = {
+  isFetching: boolean,
+  errorMessage: string | null
+}
 
-export default connect(null, null)(LoginForm)
+const mapStateToProps = (state: TRootState): TMapStateToProps => ({
+  isFetching: state.user.isLoginFetching,
+  errorMessage: state.user.loginErrorMessage
+})
+
+type TMapDispatchToProps = {
+  onLogin: (data: TLoginData) => void
+}
+const mapDispatchToProps = (dispatch: Dispatch<any>): TMapDispatchToProps => ({
+  onLogin: (data: TLoginData) => dispatch(onLogin(data)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)

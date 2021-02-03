@@ -18,7 +18,7 @@ const App: React.FC<TAppProps> = ({login, onInit}) => {
       <div className='container'>
         {
           login
-            ? <div>авторизирован</div>
+            ? <div>авторизирован как {login}</div>
             : <LoginForm/>
         }
       </div>

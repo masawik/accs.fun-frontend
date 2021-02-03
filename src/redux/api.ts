@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {TLoginData} from "./user/userTypes";
 
 export enum EResponseCodes {
   success = 0,
@@ -15,19 +16,37 @@ type TNeedLogin = {
   needLogin: boolean
 }
 
+export type TError = {
+  errorMessage: string
+}
+
 type TResponse<T> = {
   code: EResponseCodes,
-  data: T
+  data: T & TError
+}
+
+type TLoginResponse = {
+  login: string
 }
 
 const instance = axios.create({
   baseURL: 'http://localhost:8989'
 })
 
+instance.defaults.withCredentials = true
+
 export const userAPI = {
   needLogin() {
     return instance.get<TResponse<TNeedLogin>>('/need-login').then(res => res.data)
   },
+
+  getUserData() {
+    return instance.get<TResponse<TLoginResponse>>('/get-user-data').then(res => res.data)
+  },
+
+  login({login, password}: TLoginData) {
+    return instance.post<TResponse<TLoginResponse>>('/login', {login, password}).then(res => res.data)
+  }
 }
 
 
