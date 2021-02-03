@@ -1,6 +1,7 @@
 const Imap = require('imap')
 const {PASSWORD} = require('./serverConfig')
 const {encryptMailId, decryptMailId} = require('./cryptoUtils')
+const {createResponse} = require('./utils')
 const mimelib = require("mimelib")
 
 const getImap = (to) => {
@@ -21,7 +22,7 @@ const getUids = (to, imap) => (
     imap.once('ready', () => {
       imap.openBox('INBOX', () => {
         imap.search([['TO', to], ['FROM', 'help@accts.epicgames.com']], (err, results) => {
-          if (err) return reject(err)
+          if (err) return reject(createResponse(2, 'server error'))
           uids = results
           imap.end()
         })
@@ -94,7 +95,7 @@ const getMailBody = (to, uid) => (
     try {
       uid = decryptMailId(uid)
     } catch (e) {
-      return reject('uid is invalid')
+      return reject(createResponse(3, 'invalid uid'))
     }
 
     const imap = getImap(to)
