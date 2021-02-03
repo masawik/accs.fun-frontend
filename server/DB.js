@@ -1,5 +1,6 @@
 const {DB_CONFIG} = require("./serverConfig")
 const mysql = require('mysql');
+const {createResponse} = require('./utils')
 
 const getConn = () => (
   mysql.createConnection({
@@ -13,9 +14,9 @@ const getHashByLogin = (login) => (
     const connection = getConn()
     connection.query(`SELECT \`password\` FROM \`users\` WHERE login = '${login}'`, function (error, results) {
       connection.end()
-      if (error) return reject(error)
-      if (!results.length) return reject('user not exist')
-      resolve(results[0].password)
+      if (error) return reject(createResponse(2))
+      if (!results.length) return reject(createResponse(2))
+      return resolve(results[0].password)
     })
   })
 )
@@ -25,7 +26,7 @@ const setCookieByLogin = (login, cookie) => (
     const connection = getConn()
     connection.query(`UPDATE \`users\` SET \`cookie\`='${cookie}' WHERE \`login\` = '${login}'`, function (error) {
       connection.end()
-      if (error) return reject(error)
+      if (error) return reject(createResponse(2))
       return resolve()
     })
   })
@@ -36,7 +37,7 @@ const getCookieByLogin = (login) => (
     const connection = getConn()
     connection.query(`SELECT \`cookie\` FROM \`users\` WHERE \`login\` = '${login}'`, function (error, results) {
       connection.end()
-      if (error) return reject(error)
+      if (error) return reject(createResponse(2))
       return resolve(results[0].cookie)
     })
   })

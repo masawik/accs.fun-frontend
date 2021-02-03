@@ -1,15 +1,25 @@
-function createResponse(code, data) {
+//функция нужна для создания форматированного ответа на запрос
+//для удобности использования закостылена так, чтобы при передаче первым аргументом числа возвращала обьект ошибки
+//а если аргумент не число то возвращает обьект успешного ответа с данными
+//соответственно нельзя передавать данные в виде чисел
+function createResponse(data, code = 0) {
+  if (typeof data === 'number') code = data
+  if (code !== 0) data = {'errorMessage': getErrorMessageByCode(code)}
   return {code: code, data: data}
 }
 
-//0 - success
-//1 - invalid mail
-//2 - server error
-//3 - invalid uid
-//4 - get body wrong data
-//5 - wrong auth data
-//6 - wrong password
-//7 - unauthorized
+function getErrorMessageByCode(code) {
+  switch (code) {
+    case 1: return 'invalid mail'
+    case 2: return 'server error'
+    case 3: return 'invalid mail uid'
+    case 4: return 'get body invalid data'
+    case 5: return 'invalid auth data'
+    case 6: return 'wrong password'
+    case 7: return 'unauthorized'
+    default: return 'server error'
+  }
+}
 
 module.exports = {
   createResponse

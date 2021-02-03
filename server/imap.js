@@ -22,7 +22,7 @@ const getUids = (to, imap) => (
     imap.once('ready', () => {
       imap.openBox('INBOX', () => {
         imap.search([['TO', to], ['FROM', 'help@accts.epicgames.com']], (err, results) => {
-          if (err) return reject(createResponse(2, 'server error'))
+          if (err) return reject(createResponse(2))
           uids = results
           imap.end()
         })
@@ -95,7 +95,7 @@ const getMailBody = (to, uid) => (
     try {
       uid = decryptMailId(uid)
     } catch (e) {
-      return reject(createResponse(3, 'invalid uid'))
+      return reject(createResponse(3))
     }
 
     const imap = getImap(to)
