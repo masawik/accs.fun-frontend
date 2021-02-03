@@ -1,6 +1,7 @@
 function createResponse(code, data) {
   return {code: code, data: data}
 }
+
 //0 - success
 //1 - invalid mail
 //2 - server error

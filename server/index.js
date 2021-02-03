@@ -11,7 +11,7 @@ const cors = require('cors')
 const app = express()
 app.use(bodyParser.json())
 app.use(cookieParser())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({extended: true}))
 app.use(cors());
 
 const port = 8989
@@ -19,6 +19,19 @@ const port = 8989
 function isToInvalid(to) {
   const [login, domain] = to.split('@')
   return !DOMAINS.includes(domain) || !login || login.length < 3;
+}
+
+async function isAuthorized(cookies) {
+  if (!cookies.login) return false
+  const {login} = cookies
+  return getCookieByLogin(login)
+    .then(key => {
+      return key === cookies.key
+    })
+    .catch(e => {
+      console.log(e)
+      return 7
+    })
 }
 
 app.get('/get-mails', (req, res) => {
@@ -54,8 +67,8 @@ app.post('/login', (req, res) => {
       const cookieKey = genSalt()
       setCookieByLogin(login, cookieKey)
         .then(() => {
-          res.cookie('login', login, { maxAge: 900000, httpOnly: true });
-          res.cookie('key', cookieKey, { maxAge: 900000, httpOnly: true });
+          res.cookie('login', login, {maxAge: 900000, httpOnly: true});
+          res.cookie('key', cookieKey, {maxAge: 900000, httpOnly: true});
           return res.json(createResponse(0, 'success'))
         })
         .catch(() => {
@@ -67,23 +80,18 @@ app.post('/login', (req, res) => {
     })
 })
 
-app.get('/get-user-data', (req, res) => {
-  if (!req.cookies.login) return res.json(createResponse(7, 'unauthorized'))
+app.get('/need-login', async (req, res) => {
+  const isAuth = await isAuthorized(req.cookies)
+  if (isAuth === 7) return res.json(createResponse(2, 'server Error'))
+  res.json(createResponse(0, {needLogin: !isAuth}))
+})
+
+app.get('/get-user-data', async (req, res) => {
+  const isAuth = await isAuthorized(req.cookies)
+  if (isAuth === 7) return res.json(createResponse(2, 'server Error'))
+  if (!isAuth) return res.json(createResponse(7, 'unauthorized'))
   const login = req.cookies.login
-
-  getCookieByLogin(login)
-    .then(key => {
-      if (key !== req.cookies.key) {
-        res.clearCookie('login')
-        res.clearCookie('key')
-        return res.json(createResponse(7, 'unauthorized'))
-      }
-
-      return res.json(createResponse(0, {login}))
-    })
-    .catch(() => {
-      return res.json(createResponse(2, 'server Error'))
-    })
+  res.json(createResponse(0, {login}))
 })
 
 app.get('/', (req, res) => {
