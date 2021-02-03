@@ -98,7 +98,7 @@ const getMailBody = (to, uid) => (
     }
 
     const imap = getImap(to)
-    let mailBody
+    let mailBody = ''
 
     imap.once('ready', () => {
       imap.openBox('INBOX', () => {

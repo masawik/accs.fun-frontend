@@ -62,6 +62,7 @@
     ]
   },
   "devDependencies": {
-    "@types/classnames": "^2.2.11"
+    "@types/classnames": "^2.2.11",
+    "cors": "^2.8.5"
   }
 }

@@ -5,12 +5,14 @@ const {isMatchPassword, genSalt} = require('./cryptoUtils')
 const express = require('express')
 const {createError} = require('./utils')
 const bodyParser = require('body-parser')
-const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser')
+const cors = require('cors')
 
 const app = express()
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(cors());
 
 const port = 8989
 
