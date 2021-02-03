@@ -1,20 +1,13 @@
 import {
   TSetUserLogin,
   SET_USER_LOGIN,
-  TUserActionsTypes,
+  TUserActionsTypes, TLoginData,
 } from "./userTypes"
-import {ThunkAction} from "redux-thunk"
-import {TRootState} from "../rootReducer";
-
-type TThunkType = ThunkAction<void, TRootState, unknown, TUserActionsTypes>
-
+import {TThunkType} from "../rootReducer";
 
 export const setUserLogin = (login: string): TSetUserLogin => ({type: SET_USER_LOGIN, payload: login})
 
-export const needLogin = (): TThunkType => dispatch => {
+
+export const onLogin = (data: TLoginData): TThunkType<TUserActionsTypes>  => dispatch => {
 
 }
-
-// export const onLogin = (data: TLoginData): TThunkType  => dispatch => {
-//
-// }

@@ -1,14 +1,18 @@
-import React from 'react'
+import React, {Dispatch, useEffect} from 'react'
 import LoginForm from "./components/LoginForm/LoginForm";
 import {TRootState} from "./redux/rootReducer";
-import {connect} from "react-redux";
+import {connect, MapDispatchToProps, MapStateToProps} from "react-redux";
 import Layout from "./components/Layout/Layout";
+import {init} from "./redux/init/initActions";
 
-type TAppProps = {
-  login: string | null
-}
+type TAppProps = TStateProps & TDispatchProps
 
-const App: React.FC<TAppProps> = ({login}) => {
+const App: React.FC<TAppProps> = ({login, onInit}) => {
+
+  useEffect(()=> {
+    onInit()
+  }, [])
+
   return (
     <Layout>
       <div className='container'>
@@ -22,8 +26,20 @@ const App: React.FC<TAppProps> = ({login}) => {
   )
 }
 
-const mapStateToProps = (state: TRootState) => ({
+type TStateProps = {
+  login: string | null
+}
+
+const mapStateToProps: MapStateToProps<TStateProps, Object, TRootState> = (state) => ({
   login: state.user.login
 })
 
-export default connect(mapStateToProps)(App)
+type TDispatchProps = {
+  onInit: () => void
+}
+
+const mapDispatchToProps: MapDispatchToProps<TDispatchProps, Object> = (dispatch: Dispatch<any>) => ({
+  onInit: () => dispatch(init())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
