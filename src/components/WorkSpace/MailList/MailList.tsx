@@ -2,7 +2,7 @@ import React, {Dispatch, useEffect} from 'react'
 import {connect} from "react-redux";
 import {TRootState} from "../../../redux/rootReducer";
 import {TMail} from "../../../redux/api";
-import {mailFetch} from "../../../redux/mail/mailActions";
+import {getMails} from "../../../redux/mail/mailActions";
 import {Link} from "react-router-dom";
 
 type TMailListProps = {
@@ -70,7 +70,7 @@ const mapStateToProps = (state: TRootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-  onLoadMails: () => dispatch(mailFetch())
+  onLoadMails: () => dispatch(getMails())
 })
 
 

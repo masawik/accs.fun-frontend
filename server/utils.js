@@ -11,7 +11,7 @@ function createResponse(data, code = 0) {
 function getErrorMessageByCode(code) {
   switch (code) {
     case 1: return 'invalid mail'
-    case 2: return 'server error'
+    case 2: return 'unknown server error'
     case 3: return 'invalid mail uid'
     case 4: return 'get body invalid data'
     case 5: return 'invalid auth data'

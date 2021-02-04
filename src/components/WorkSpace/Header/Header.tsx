@@ -1,7 +1,7 @@
 import React, {Dispatch} from 'react'
 import {connect} from "react-redux";
 import {TRootState} from "../../../redux/rootReducer";
-import {mailFetch} from "../../../redux/mail/mailActions";
+import {getMails} from "../../../redux/mail/mailActions";
 import {onLogout} from "../../../redux/user/userActions";
 import {Link, useLocation} from 'react-router-dom';
 
@@ -95,7 +95,7 @@ const mapStateToProps = (state: TRootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-  onLoadMails: () => dispatch(mailFetch()),
+  onLoadMails: () => dispatch(getMails()),
   onLogout: () => dispatch(onLogout())
 })
 

@@ -15,6 +15,8 @@ import {
 } from "./mailTypes";
 import {EResponseCodes, mailAPI, TMail} from "../api";
 import {TThunkType} from "../rootReducer";
+import {clearAllStates} from "../shared/sharedActions";
+import {TSharedActionTypes} from "../shared/sharedTypes";
 
 const mailFetchStart = ():TMailFetchStart => ({type: MAIL_FETCH_START})
 const mailFetchError = (errorMessage: string):TMailFetchError => ({
@@ -30,21 +32,28 @@ const mailBodyFetchStart = ():TMailBodyFetchStart => ({type: MAIL_BODY_FETCH_STA
 const mailBodyFetchSuccess = (mailBody: string):TMailBodyFetchSuccess => ({type: MAIL_BODY_FETCH_SUCCESS, payload: {mailBody}})
 const mailBodyFetchError = (errorMessage: string):TMailBodyFetchError => ({type: MAIL_BODY_FETCH_ERROR, errorMessage})
 
-export const mailFetch = (): TThunkType<TMailActionTypes> => {
+export const getMails = (): TThunkType<TMailActionTypes | TSharedActionTypes> => {
   return async dispatch => {
     dispatch(mailFetchStart())
     const mailsInfo = await mailAPI.getMails()
-    if (mailsInfo.code !== EResponseCodes.success) dispatch(mailFetchError(mailsInfo.data.errorMessage))
-    dispatch(mailFetchSuccess(mailsInfo.data.mails))
+    const {code, data} = mailsInfo
+    if (code !== EResponseCodes.success) {
+      if (code === EResponseCodes.unauthorized) dispatch(clearAllStates())
+      dispatch(mailFetchError(data.errorMessage))
+    }
+    dispatch(mailFetchSuccess(data.mails))
   }
 }
 
-export const getMailBody = (uid: string): TThunkType<TMailActionTypes> => {
+export const getMailBody = (uid: string): TThunkType<TMailActionTypes | TSharedActionTypes> => {
   return async dispatch => {
     dispatch(mailBodyFetchStart())
     const mailBodyInfo = await mailAPI.getMailBody(uid)
-    console.log(mailBodyInfo)
-    if (mailBodyInfo.code !== EResponseCodes.success) return dispatch(mailBodyFetchError(mailBodyInfo.data.errorMessage))
-    dispatch(mailBodyFetchSuccess(mailBodyInfo.data.body))
+    const {code, data} = mailBodyInfo
+    if (code !== EResponseCodes.success) {
+      if (code === EResponseCodes.unauthorized) dispatch(clearAllStates())
+      dispatch(mailBodyFetchError(data.errorMessage))
+    }
+    dispatch(mailBodyFetchSuccess(data.body))
   }
 }

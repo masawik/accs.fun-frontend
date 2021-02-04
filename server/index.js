@@ -32,20 +32,19 @@ async function isAuthorized(cookies) {
       return key === cookies.key
     })
     .catch(e => {
-      console.log(e)
-      return 7
+      return 'error'
     })
 }
 
 app.get('/get-mails', (req, res) => {
   const cookies = req.cookies
-  if (!isAuthorized(cookies)) return res.json(7)
+  if (!isAuthorized(cookies)) return res.json(createResponse(7))
   const to = cookies.login
 
   getMessages(to)
     .then(
       (result) => res.json(createResponse({mails: result})),
-      (error) => res.json(error)
+      (error) => res.json(createResponse(2))
     )
 })
 
@@ -61,12 +60,11 @@ app.get('/get-body', async (req, res) => {
     .then(
       (result) => res.json(createResponse({body: result})),
     )
-    .catch((error) => {
-      res.json(error)
+    .catch(() => {
+      res.json(createResponse(2))
     })
 })
 
-//todo увеличить время жизни кук
 //todo сделать сессии
 app.post('/login', (req, res) => {
   const {login, password} = req.body
@@ -78,22 +76,22 @@ app.post('/login', (req, res) => {
       const cookieKey = genSalt()
       setCookieByLogin(login, cookieKey)
         .then(() => {
-          res.cookie('login', login, {maxAge: 1000 * 60 * 60, httpOnly: true});
-          res.cookie('key', cookieKey, {maxAge: 1000 * 60 * 60, httpOnly: true});
+          res.cookie('login', login, {maxAge: 1000 * 60 * 60 * 24, httpOnly: true});
+          res.cookie('key', cookieKey, {maxAge: 1000 * 60 * 60 * 24, httpOnly: true});
           return res.json(createResponse({login}))
         })
         .catch(() => {
           return res.json(createResponse(2))
         })
     })
-    .catch(e => {
-      res.json(e)
+    .catch(() => {
+      res.json(createResponse(2))
     })
 })
 
 app.get('/get-user-data', async (req, res) => {
   const isAuth = await isAuthorized(req.cookies)
-  if (isAuth === 7) return res.json(createResponse(2))
+  if (isAuth === 'error') return res.json(createResponse(2))
   if (!isAuth) return res.json(createResponse(7))
   const login = req.cookies.login
   res.json(createResponse({login}))
@@ -101,7 +99,7 @@ app.get('/get-user-data', async (req, res) => {
 
 app.get('/need-login', async (req, res) => {
   const isAuth = await isAuthorized(req.cookies)
-  if (isAuth === 7) return res.json(createResponse(2))
+  if (isAuth === 'error') return res.json(createResponse(2))
   res.json(createResponse({needLogin: !isAuth}))
 })
 
