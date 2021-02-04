@@ -12,6 +12,7 @@ type TWorkSpaceProps = {
 
 const WorkSpace: React.FC<TWorkSpaceProps> = ({login}) => {
   if (!login) return <Redirect to='/login'/>
+
   return (
     <>
       <Header/>

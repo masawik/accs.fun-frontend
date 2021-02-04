@@ -35,6 +35,7 @@ const Header: React.FC<THeaderProps> = ({isFetching, onLoadMails, onLogout, logi
       type="button"
       className="btn btn-success"
       onClick={onLoadMails}
+      disabled={isFetching}
     >
       <svg
         style={{
@@ -63,6 +64,7 @@ const Header: React.FC<THeaderProps> = ({isFetching, onLoadMails, onLogout, logi
             type="button"
             className="btn btn-danger"
             style={{margin: '0 10px'}}
+            disabled={isFetching}
           >
             <svg style={{marginRight: '5px'}} xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                  fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
@@ -77,6 +79,7 @@ const Header: React.FC<THeaderProps> = ({isFetching, onLoadMails, onLogout, logi
             type="button"
             className="btn btn-warning"
             onClick={onLogout}
+            disabled={isFetching}
           >
             logout
           </button>

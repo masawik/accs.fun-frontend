@@ -43,6 +43,7 @@ export const getMailBody = (uid: string): TThunkType<TMailActionTypes> => {
   return async dispatch => {
     dispatch(mailBodyFetchStart())
     const mailBodyInfo = await mailAPI.getMailBody(uid)
+    console.log(mailBodyInfo)
     if (mailBodyInfo.code !== EResponseCodes.success) return dispatch(mailBodyFetchError(mailBodyInfo.data.errorMessage))
     dispatch(mailBodyFetchSuccess(mailBodyInfo.data.body))
   }

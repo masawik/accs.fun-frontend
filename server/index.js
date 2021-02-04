@@ -49,9 +49,10 @@ app.get('/get-mails', (req, res) => {
     )
 })
 
-app.get('/get-body', (req, res) => {
+app.get('/get-body', async (req, res) => {
   const cookies = req.cookies
-  if (!isAuthorized(cookies)) return res.json(7)
+  const isAuth = await isAuthorized(cookies)
+  if (!isAuth) return res.json(createResponse(7))
   const to = cookies.login
   let uid = req.query.uid
   if (!uid) return res.json(createResponse(4))
@@ -59,8 +60,10 @@ app.get('/get-body', (req, res) => {
   getMailBody(to, uid)
     .then(
       (result) => res.json(createResponse({body: result})),
-      (error) => res.json(error)
     )
+    .catch((error) => {
+      res.json(error)
+    })
 })
 
 //todo увеличить время жизни кук
