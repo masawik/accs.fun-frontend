@@ -14,7 +14,7 @@ const getHashByLogin = (login) => (
     const connection = getConn()
     connection.query(`SELECT \`password\` FROM \`users\` WHERE login = '${login}'`, function (error, results) {
       connection.end()
-      if (error) return reject(createResponse(2))
+      if (error) return reject(createResponse(8))
       if (!results.length) return reject(createResponse(5))
       return resolve(results[0].password)
     })
@@ -26,7 +26,7 @@ const setCookieByLogin = (login, cookie) => (
     const connection = getConn()
     connection.query(`UPDATE \`users\` SET \`cookie\`='${cookie}' WHERE \`login\` = '${login}'`, function (error) {
       connection.end()
-      if (error) return reject(createResponse(2))
+      if (error) return reject(createResponse(8))
       return resolve()
     })
   })
@@ -37,7 +37,7 @@ const getCookieByLogin = (login) => (
     const connection = getConn()
     connection.query(`SELECT \`cookie\` FROM \`users\` WHERE \`login\` = '${login}'`, function (error, results) {
       connection.end()
-      if (error) return reject(createResponse(2))
+      if (error) return reject(createResponse(8))
       return resolve(results[0].cookie)
     })
   })

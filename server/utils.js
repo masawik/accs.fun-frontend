@@ -17,6 +17,7 @@ function getErrorMessageByCode(code) {
     case 5: return 'invalid auth data'
     case 6: return 'wrong password'
     case 7: return 'unauthorized'
+    case 8: return 'DB Error'
     default: return 'server error'
   }
 }

@@ -4,14 +4,17 @@ import {connect} from "react-redux";
 import {onLogin} from "../../redux/user/userActions";
 import {TLoginData} from "../../redux/user/userTypes";
 import {TRootState} from "../../redux/rootReducer";
+import { Redirect } from 'react-router-dom';
 
 type TLoginFormProps = TMapDispatchToProps & TMapStateToProps
 
-const LoginForm: React.FC<TLoginFormProps> = ({onLogin, isFetching, errorMessage}) => {
+const LoginForm: React.FC<TLoginFormProps> = ({onLogin, isFetching, errorMessage, currentLogin}) => {
   const [login, setLogin] = useState('samanthacasexu')
   const [loginError, setLoginError] = useState<string | false>(false)
   const [domain, setDomain] = useState('egsabuser.mcdir.ru')
   const [password, setPassword] = useState('l6fm3uGlwR')
+
+  if (currentLogin) return <Redirect to='/dashboard'/>
 
   const DOMAINS = [
     'egsabuser.mcdir.ru',
@@ -125,12 +128,14 @@ const LoginForm: React.FC<TLoginFormProps> = ({onLogin, isFetching, errorMessage
 
 type TMapStateToProps = {
   isFetching: boolean,
-  errorMessage: string | null
+  errorMessage: string | null,
+  currentLogin: string | null
 }
 
 const mapStateToProps = (state: TRootState): TMapStateToProps => ({
   isFetching: state.user.isLoginFetching,
-  errorMessage: state.user.loginErrorMessage
+  errorMessage: state.user.loginErrorMessage,
+  currentLogin: state.user.login
 })
 
 type TMapDispatchToProps = {

@@ -5,6 +5,7 @@ import {connect, MapDispatchToProps, MapStateToProps} from "react-redux";
 import Layout from "./components/Layout/Layout";
 import {init} from "./redux/init/initActions";
 import WorkSpace from "./components/WorkSpace/WorkSpace";
+import {Redirect, Route, Switch } from 'react-router-dom';
 
 type TAppProps = TStateProps & TDispatchProps
 
@@ -17,11 +18,19 @@ const App: React.FC<TAppProps> = ({login, onInit}) => {
   return (
     <Layout>
       <div className='container'>
-        {
-          login
-            ? <WorkSpace/>
-            : <LoginForm/>
-        }
+        <Switch>
+          <Route path='/login'>
+            <LoginForm/>
+          </Route>
+
+          <Route path='/dashboard'>
+            <WorkSpace/>
+          </Route>
+
+          <Route path='/'>
+            <Redirect to='/login'/>
+          </Route>
+        </Switch>
       </div>
     </Layout>
   )
