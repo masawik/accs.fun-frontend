@@ -19,6 +19,10 @@ function formatDate(dateString: string) {
   const date = new Date(dateString)
   return `${addZero(date.getHours())}:${addZero(date.getMinutes())}:${addZero(date.getSeconds())} ${addZero(date.getDay())}-${addZero(date.getMonth() + 1)}-${addZero(date.getFullYear())}`
 }
+//todo переделать отображение загрузки писем на алерт
+const Plug: React.FC<{ text: string }> = ({text}) => (
+  <span className="list-group-item list-group-item-action d-flex justify-content-center"><span
+    className='text-muted'>{text}</span></span>)
 
 const MailList: React.FC<TMailListProps> = ({mails, isFetching, onLoadMails}) => {
 
@@ -41,18 +45,17 @@ const MailList: React.FC<TMailListProps> = ({mails, isFetching, onLoadMails}) =>
     )
   })
 
+  const $plug = isFetching
+                ? <Plug text='Loading...'/>
+                : $mails
+                  ? null
+                  : <Plug text='No mails'/>
+
   return (
     <div>
       <ul className="list-group">
-        {
-          mails
-            ? $mails
-            : (
-                <a className="list-group-item list-group-item-action d-flex justify-content-center">
-                  <span className='text-muted'>Писем нет</span>
-                </a>
-              )
-        }
+        {$plug}
+        {$mails}
       </ul>
     </div>
   )
