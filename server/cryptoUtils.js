@@ -1,4 +1,3 @@
-'use strict'
 const crypto = require('crypto')
 const bcrypt = require('bcrypt')
 const SALT_MAIL_ID = 'kQALCJjfGxvOXi8GBmEKz0zOWr6StNSD'
@@ -22,15 +21,15 @@ function decrypt(salt, text) {
   return decrypted.toString();
 }
 
-function encryptPassword(password) {
-  const salt = bcrypt.genSaltSync(10);
-  let encPassword = bcrypt.hashSync(password, salt);
-
-  const piece = encPassword.slice(10,20)
-  encPassword = encPassword.replace(piece, '')
-  encPassword = encPassword + piece
-  return encPassword
-}
+// function encryptPassword(password) {
+//   const salt = bcrypt.genSaltSync(10);
+//   let encPassword = bcrypt.hashSync(password, salt);
+//
+//   const piece = encPassword.slice(10,20)
+//   encPassword = encPassword.replace(piece, '')
+//   encPassword = encPassword + piece
+//   return encPassword
+// }
 
 function isMatchPassword(password, hash) {
   const piece = hash.slice(-10)

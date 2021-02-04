@@ -33,7 +33,7 @@ const MailList: React.FC<TMailListProps> = ({mails, isFetching, onLoadMails}) =>
   const $mails = mails?.map((i) => {
     const dateString = formatDate(i.date)
     return (
-      <a
+      <li
         key={i.uid}
         className="list-group-item list-group-item-action d-flex justify-content-between"
         style={{cursor: 'pointer'}}
@@ -41,7 +41,7 @@ const MailList: React.FC<TMailListProps> = ({mails, isFetching, onLoadMails}) =>
         <span className='fw-bold d-inline-block'>{i.from}</span>
         <span className='text-muted'>{i.subject}</span>
         <span>{dateString}</span>
-      </a>
+      </li>
     )
   })
 
