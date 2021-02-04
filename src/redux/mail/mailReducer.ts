@@ -8,7 +8,7 @@ const initialState = {
 
 type TMailState = typeof initialState
 
-const userReducer = (state = initialState, action: MailActionTypes): TMailState => {
+const mailReducer = (state = initialState, action: MailActionTypes): TMailState => {
   switch (action.type) {
     case MAIL_FETCH_START:
       return {...state, isFetching: true}
@@ -22,4 +22,4 @@ const userReducer = (state = initialState, action: MailActionTypes): TMailState 
 }
 
 
-export default userReducer
+export default mailReducer

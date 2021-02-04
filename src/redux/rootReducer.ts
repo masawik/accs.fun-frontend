@@ -2,10 +2,12 @@ import {combineReducers} from "redux";
 import user from "./user/userReducer";
 import init from "./init/initReducer";
 import {ThunkAction} from "redux-thunk";
+import mail from "./mail/mailReducer";
 
 const rootState = combineReducers({
   user,
-  init
+  init,
+  mail
 })
 
 export default rootState

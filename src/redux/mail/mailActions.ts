@@ -24,7 +24,6 @@ export const mailFetch = (): TThunkType<MailActionTypes> => {
     dispatch(mailFetchStart())
     const mailsInfo = await mailAPI.getMails()
     if (mailsInfo.code !== 0) dispatch(mailFetchError(mailsInfo.data.errorMessage))
-
     dispatch(mailFetchSuccess(mailsInfo.data.mails))
   }
 }

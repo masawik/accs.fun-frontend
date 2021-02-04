@@ -44,7 +44,7 @@ app.get('/get-mails', (req, res) => {
 
   getMessages(to)
     .then(
-      (result) => res.json(createResponse(result)),
+      (result) => res.json(createResponse({mails: result})),
       (error) => res.json(error)
     )
 })
