@@ -15,7 +15,7 @@ const getHashByLogin = (login) => (
     connection.query(`SELECT \`password\` FROM \`users\` WHERE login = '${login}'`, function (error, results) {
       connection.end()
       if (error) return reject(createResponse(2))
-      if (!results.length) return reject(createResponse(2))
+      if (!results.length) return reject(createResponse(5))
       return resolve(results[0].password)
     })
   })

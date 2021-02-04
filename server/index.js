@@ -38,8 +38,9 @@ async function isAuthorized(cookies) {
 }
 
 app.get('/get-mails', (req, res) => {
-  const to = req.query.to
-  if (isToInvalid(to)) return res.json(createResponse(1))
+  const cookies = req.cookies
+  if (!isAuthorized(cookies)) return res.json(7)
+  const to = cookies.login
 
   getMessages(to)
     .then(
@@ -72,15 +73,17 @@ app.post('/login', (req, res) => {
       const cookieKey = genSalt()
       setCookieByLogin(login, cookieKey)
         .then(() => {
-          res.cookie('login', login, {maxAge: 1000 * 5, httpOnly: true});
-          res.cookie('key', cookieKey, {maxAge: 1000 * 5, httpOnly: true});
+          res.cookie('login', login, {maxAge: 1000 * 60 * 60, httpOnly: true});
+          res.cookie('key', cookieKey, {maxAge: 1000 * 60 * 60, httpOnly: true});
           return res.json(createResponse({login}))
         })
         .catch(() => {
           return res.json(createResponse(2))
         })
     })
-    .catch(e => res.json(e))
+    .catch(e => {
+      res.json(e)
+    })
 })
 
 app.get('/get-user-data', async (req, res) => {
