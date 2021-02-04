@@ -29,6 +29,8 @@ type TLoginResponse = {
   login: string
 }
 
+type TLogoutResponse = 'ok'
+
 export type TMail = {
   subject: string,
   from: string,
@@ -58,6 +60,10 @@ export const userAPI = {
 
   login({login, password}: TLoginData) {
     return instance.post<TResponse<TLoginResponse>>('/login', {login, password}).then(res => res.data)
+  },
+
+  logout() {
+    return instance.get<TResponse<TLogoutResponse>>('/logout').then(res => res.data)
   }
 }
 

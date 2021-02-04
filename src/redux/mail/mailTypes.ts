@@ -18,4 +18,4 @@ export type TMailFetchSuccess = {
   }
 }
 
-export type MailActionTypes = TMailFetchStart | TMailFetchError | TMailFetchSuccess
+export type TMailActionTypes = TMailFetchStart | TMailFetchError | TMailFetchSuccess

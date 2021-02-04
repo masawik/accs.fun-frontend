@@ -1,7 +1,7 @@
 import {
   MAIL_FETCH_ERROR,
   MAIL_FETCH_START,
-  MAIL_FETCH_SUCCESS, MailActionTypes,
+  MAIL_FETCH_SUCCESS, TMailActionTypes,
   TMailFetchError,
   TMailFetchStart,
   TMailFetchSuccess
@@ -19,7 +19,7 @@ const mailFetchSuccess = (mails: TMail[]):TMailFetchSuccess => ({
   payload: {mails}
 })
 
-export const mailFetch = (): TThunkType<MailActionTypes> => {
+export const mailFetch = (): TThunkType<TMailActionTypes> => {
   return async dispatch => {
     dispatch(mailFetchStart())
     const mailsInfo = await mailAPI.getMails()

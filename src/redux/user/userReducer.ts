@@ -1,4 +1,5 @@
-import {LOGIN_ERROR, LOGIN_FETCHING_START, SET_USER_LOGIN, TUserActionsTypes} from "./userTypes";
+import {LOGIN_ERROR, LOGIN_FETCHING_START, SET_USER_LOGIN, TUserActionsTypes} from "./userTypes"
+import {CLEAR_ALL_STATES, TSharedActionTypes} from "../shared/sharedTypes"
 
 const initialState = {
   isLoginFetching: false,
@@ -8,8 +9,10 @@ const initialState = {
 
 type TUserState = typeof initialState
 
-const userReducer = (state = initialState, action: TUserActionsTypes): TUserState => {
+const userReducer = (state = initialState, action: TUserActionsTypes | TSharedActionTypes): TUserState => {
   switch (action.type) {
+    case CLEAR_ALL_STATES:
+      return initialState
     case LOGIN_FETCHING_START:
       return {...state, isLoginFetching: true}
     case SET_USER_LOGIN:

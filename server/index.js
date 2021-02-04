@@ -100,6 +100,12 @@ app.get('/need-login', async (req, res) => {
   res.json(createResponse({needLogin: !isAuth}))
 })
 
+app.get('/logout', (req, res) => {
+  res.cookie('login', '', {maxAge: 0, httpOnly: true});
+  res.cookie('key', '', {maxAge: 0, httpOnly: true});
+  res.send(createResponse('ok'))
+})
+
 app.get('/', (req, res) => {
   res.send('hello!')
 })

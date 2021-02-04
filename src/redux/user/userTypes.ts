@@ -13,7 +13,6 @@ export type TLoginError = {
   type: typeof LOGIN_ERROR,
   payload: TError
 }
-
 export type TLoginData = {
   login: string,
   password: string
