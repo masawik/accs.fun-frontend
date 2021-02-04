@@ -28,7 +28,13 @@ const Mail: React.FC<RouteComponentProps<{uid: string}> & TMailProps> = (props) 
       {
         isFetching || !mailBody
         ? <LoadingWrapper />
-        : parse(mailBody)
+        : (
+          <div
+            style={{border: '1px solid black'}}
+          >
+              {parse(mailBody)}
+          </div>
+          )
       }
     </>
   )

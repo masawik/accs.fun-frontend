@@ -120,12 +120,18 @@ const getMailBody = (to, uid) => (
     })
 
     imap.once('end', () => {
-      return resolve(mimelib.decodeQuotedPrintable(mailBody))
+      let html = mimelib.decodeQuotedPrintable(mailBody).match(/(\<body[\s\S]+\<\/body\>)/)[0]
+      return resolve(html)
     })
 
     imap.connect()
   })
 )
+
+// getMailBody('samanthacasexu@egsabuser.mcdir.ru', 'a57180dc243fe514f1b4ce0f552d0201:42242ef9c1f5d137ab1eb20a79bf26dd')
+//   .then(res => {
+//     console.log(res)
+//   })
 
 module.exports = {
   getMessages,

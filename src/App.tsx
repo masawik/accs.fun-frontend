@@ -6,6 +6,7 @@ import Layout from "./components/Layout/Layout";
 import {init} from "./redux/init/initActions";
 import WorkSpace from "./components/WorkSpace/WorkSpace";
 import {Redirect, Route, Switch } from 'react-router-dom';
+import './app.GLOBAL.css'
 
 type TAppProps = TStateProps & TDispatchProps
 
