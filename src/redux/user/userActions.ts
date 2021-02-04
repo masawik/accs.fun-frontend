@@ -9,7 +9,7 @@ import {
   TUserActionsTypes,
 } from "./userTypes"
 import {TThunkType} from "../rootReducer";
-import {userAPI} from "../api";
+import {EResponseCodes, userAPI} from "../api";
 import {clearAllStates} from "../shared/sharedActions";
 
 export const setUserLogin = (login: string): TSetUserLogin => ({type: SET_USER_LOGIN, payload: login})
@@ -21,7 +21,7 @@ export const onLogin = (data: TLoginData): TThunkType<TUserActionsTypes>  => {
   return async dispatch => {
     dispatch(loginFetchingStart())
     const loginInfo = await userAPI.login(data)
-    if (loginInfo.code !== 0) dispatch(loginError(loginInfo.data.errorMessage))
+    if (loginInfo.code !== EResponseCodes.success) dispatch(loginError(loginInfo.data.errorMessage))
     dispatch(setUserLogin(loginInfo.data.login))
   }
 }
@@ -29,7 +29,7 @@ export const onLogin = (data: TLoginData): TThunkType<TUserActionsTypes>  => {
 export const onLogout = (): TThunkType<any> => {
   return async dispatch => {
     const logoutResponse = await userAPI.logout()
-    if (logoutResponse.code === 0) {
+    if (logoutResponse.code === EResponseCodes.success) {
       dispatch(clearAllStates())
     }
   }

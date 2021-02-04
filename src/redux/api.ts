@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {TLoginData} from "./user/userTypes";
-//todo использовать енум
+
 export enum EResponseCodes {
   success = 0,
   invalidMail = 1,

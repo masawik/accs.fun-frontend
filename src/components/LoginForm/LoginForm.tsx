@@ -29,7 +29,7 @@ const LoginForm: React.FC<TLoginFormProps> = ({onLogin, isFetching, errorMessage
   ))
 
   const handleLogin = (e: ChangeEvent<HTMLInputElement>): void => {
-    let val = e.target.value
+    let val = e.target.value.trim()
 
     if (/@/.test(val)) {
       const [login, domain] = val.split('@')
