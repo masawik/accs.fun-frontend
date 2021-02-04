@@ -133,7 +133,7 @@ type TMapStateToProps = {
 }
 
 const mapStateToProps = (state: TRootState): TMapStateToProps => ({
-  isFetching: state.user.isLoginFetching,
+  isFetching: state.user.isFetching,
   errorMessage: state.user.loginErrorMessage,
   currentLogin: state.user.login
 })

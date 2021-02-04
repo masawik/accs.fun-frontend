@@ -38,10 +38,10 @@ export const getMails = (): TThunkType<TMailActionTypes | TSharedActionTypes> =>
     const mailsInfo = await mailAPI.getMails()
     const {code, data} = mailsInfo
     if (code !== EResponseCodes.success) {
-      if (code === EResponseCodes.unauthorized) dispatch(clearAllStates())
-      dispatch(mailFetchError(data.errorMessage))
+      if (code === EResponseCodes.unauthorized) return dispatch(clearAllStates())
+      return dispatch(mailFetchError(data.errorMessage))
     }
-    dispatch(mailFetchSuccess(data.mails))
+    return dispatch(mailFetchSuccess(data.mails))
   }
 }
 
@@ -51,9 +51,9 @@ export const getMailBody = (uid: string): TThunkType<TMailActionTypes | TSharedA
     const mailBodyInfo = await mailAPI.getMailBody(uid)
     const {code, data} = mailBodyInfo
     if (code !== EResponseCodes.success) {
-      if (code === EResponseCodes.unauthorized) dispatch(clearAllStates())
-      dispatch(mailBodyFetchError(data.errorMessage))
+      if (code === EResponseCodes.unauthorized) return dispatch(clearAllStates())
+      return dispatch(mailBodyFetchError(data.errorMessage))
     }
-    dispatch(mailBodyFetchSuccess(data.body))
+    return dispatch(mailBodyFetchSuccess(data.body))
   }
 }

@@ -29,7 +29,7 @@ type TLoginResponse = {
   login: string
 }
 
-type TLogoutResponse = 'ok'
+type TOkResponse = 'ok'
 
 export type TMail = {
   subject: string,
@@ -67,7 +67,11 @@ export const userAPI = {
   },
 
   logout() {
-    return instance.get<TResponse<TLogoutResponse>>('/logout').then(res => res.data)
+    return instance.get<TResponse<TOkResponse>>('/logout').then(res => res.data)
+  },
+
+  deleteAccount(password: string) {
+    return instance.post<TResponse<TOkResponse>>('/delete-account', {password}).then(res => res.data)
   }
 }
 

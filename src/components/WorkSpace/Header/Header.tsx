@@ -1,46 +1,51 @@
-import React, {Dispatch} from 'react'
-import {connect} from "react-redux";
-import {TRootState} from "../../../redux/rootReducer";
-import {getMails} from "../../../redux/mail/mailActions";
-import {onLogout} from "../../../redux/user/userActions";
-import {Link, useLocation} from 'react-router-dom';
+import React, {ChangeEvent, Dispatch, FormEvent, useState} from 'react'
+import {connect} from "react-redux"
+import {TRootState} from "../../../redux/rootReducer"
+import {getMails} from "../../../redux/mail/mailActions"
+import {onDeleteAccount, onLogout} from "../../../redux/user/userActions"
+import {Link, useLocation} from 'react-router-dom'
+import Modal from "./Modal/Modal"
+import cn from 'classnames'
 
 type THeaderProps = {
-  isFetching: boolean,
+  isMailFetching: boolean,
+  isUserFetching: boolean,
   onLoadMails: () => void,
   onLogout: () => void,
-  login: string | null
+  login: string | null,
+  onDelete: (password: string) => void,
+  deleteErrorMessage: string | null
 }
 
-const Header: React.FC<THeaderProps> = ({isFetching, onLoadMails, onLogout, login}) => {
+const Header: React.FC<THeaderProps> = ({isMailFetching, onLoadMails, onLogout, login, isUserFetching, onDelete, deleteErrorMessage}) => {
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [modalPassword, setModalPassword] = useState('')
+
   const location = useLocation()
   const isInMail = /\/dashboard\/mail\/.+/.test(location.pathname)
-  //todo всплывающее окно с подтверждением удаления аккаунта
-
   const $goBackButton = (
     <Link to='/dashboard' className='btn btn-light'>
       <svg
         style={{marginRight: '5px'}}
         xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-arrow-left"
-           viewBox="0 0 16 16">
+        viewBox="0 0 16 16">
         <path fillRule="evenodd"
               d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
       </svg>
       Go back
     </Link>
   )
-
   const $refreshButton = (
     <button
       type="button"
       className="btn btn-success"
       onClick={onLoadMails}
-      disabled={isFetching}
+      disabled={isMailFetching}
     >
       <svg
         style={{
           marginRight: '5px',
-          animation: isFetching ? '.75s linear infinite spinner-border' : 'none'
+          animation: isMailFetching ? '.75s linear infinite spinner-border' : 'none'
         }}
         xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
         className="bi bi-arrow-repeat" viewBox="0 0 16 16">
@@ -52,8 +57,22 @@ const Header: React.FC<THeaderProps> = ({isFetching, onLoadMails, onLogout, logi
       refresh
     </button>
   )
+
+  const toggleModal = () => {
+    setIsModalVisible(prevState => !prevState)
+  }
+
+  const modalPasswordHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setModalPassword(e.target.value)
+  }
+
+  const onSubmitDeleteAccount = (e: FormEvent) => {
+    e.preventDefault()
+    onDelete(modalPassword)
+  }
+
   return (
-    <nav className="navbar navbar-dark bg-primary">
+    <nav className="navbar navbar-dark bg-primary position-relative">
       <div className="container-fluid">
         {isInMail && $goBackButton}
         <span className="navbar-brand">{login}</span>
@@ -64,7 +83,8 @@ const Header: React.FC<THeaderProps> = ({isFetching, onLoadMails, onLogout, logi
             type="button"
             className="btn btn-danger"
             style={{margin: '0 10px'}}
-            disabled={isFetching}
+            onClick={toggleModal}
+            disabled={isMailFetching}
           >
             <svg style={{marginRight: '5px'}} xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                  fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
@@ -79,24 +99,63 @@ const Header: React.FC<THeaderProps> = ({isFetching, onLoadMails, onLogout, logi
             type="button"
             className="btn btn-warning"
             onClick={onLogout}
-            disabled={isFetching}
+            disabled={isMailFetching}
           >
             logout
           </button>
         </div>
       </div>
+      {isModalVisible &&
+      <Modal
+        onClose={toggleModal}
+      >
+        <form
+          onSubmit={onSubmitDeleteAccount}
+          className="modal-body"
+        >
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">password</label>
+            <input
+              value={modalPassword}
+              onChange={modalPasswordHandler}
+              type="password"
+              className={cn(
+                'form-control',
+                {'is-invalid': deleteErrorMessage}
+              )}
+              id="password"
+              required
+            />
+            {deleteErrorMessage && <div className="invalid-feedback d-block fs-6">{deleteErrorMessage}</div>}
+          </div>
+          <div className="modal-footer">
+            <button onClick={toggleModal} type="button" className="btn btn-warning">cancel</button>
+            <button type="submit" className="btn btn-danger">
+              {
+                isUserFetching
+                  ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>
+                  : 'delete'
+              }
+            </button>
+          </div>
+        </form>
+      </Modal>
+      }
     </nav>
   )
 }
 
 const mapStateToProps = (state: TRootState) => ({
-  isFetching: state.mail.isFetching,
-  login: state.user.login
+  isMailFetching: state.mail.isFetching,
+  login: state.user.login,
+  isUserFetching: state.user.isFetching,
+  deleteErrorMessage: state.user.deleteErrorMessage
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
   onLoadMails: () => dispatch(getMails()),
-  onLogout: () => dispatch(onLogout())
+  onLogout: () => dispatch(onLogout()),
+  onDelete: (password: string) => dispatch(onDeleteAccount(password))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header)
