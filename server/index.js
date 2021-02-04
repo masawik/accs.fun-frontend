@@ -1,4 +1,4 @@
-const {getHashByLogin, setCookieByLogin, getCookieByLogin} = require("./DB")
+const {getHashByLogin, setCookieByLogin, getCookieByLogin, deleteAccountInfoByLogin} = require("./DB")
 const {getMessages, getMailBody} = require("./imap")
 const {DOMAINS} = require('./serverConfig')
 const {isMatchPassword, genSalt} = require('./cryptoUtils')
@@ -31,7 +31,7 @@ async function isAuthorized(cookies) {
     .then(key => {
       return key === cookies.key
     })
-    .catch(e => {
+    .catch(() => {
       return 'error'
     })
 }
@@ -44,7 +44,7 @@ app.get('/get-mails', (req, res) => {
   getMessages(to)
     .then(
       (result) => res.json(createResponse({mails: result})),
-      (error) => res.json(createResponse(2))
+      () => res.json(createResponse(2))
     )
 })
 
@@ -107,6 +107,28 @@ app.get('/logout', (req, res) => {
   res.cookie('login', '', {maxAge: 0, httpOnly: true});
   res.cookie('key', '', {maxAge: 0, httpOnly: true});
   res.send(createResponse('ok'))
+})
+
+app.post('/delete-account', async (req, res) => {
+  const {password} = req.body
+  if (!password) return res.json(createResponse(6))
+  const cookies = req.cookies
+  const isAuth = await isAuthorized(cookies)
+  if (!isAuth) return res.json(createResponse(7))
+  const login = cookies.login
+
+  getHashByLogin(login)
+    .then(hash => {
+      if (!isMatchPassword(password, hash)) return res.json(createResponse(6))
+      deleteAccountInfoByLogin(login)
+        .then(() => {
+          res.json(createResponse('ok'))
+        })
+    })
+    .catch(() => {
+      res.json(createResponse(2))
+    })
+
 })
 
 app.get('/', (req, res) => {

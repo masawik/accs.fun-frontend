@@ -43,8 +43,20 @@ const getCookieByLogin = (login) => (
   })
 )
 
+const deleteAccountInfoByLogin = (login) => (
+  new Promise(((resolve, reject) => {
+    const connection = getConn()
+    connection.query(`DELETE FROM \`users\` WHERE \`login\`='${login}'`, function (error, results) {
+      connection.end()
+      if (error) return reject(createResponse(8))
+      return resolve()
+    })
+  }))
+)
+
 module.exports = {
   getHashByLogin,
   setCookieByLogin,
-  getCookieByLogin
+  getCookieByLogin,
+  deleteAccountInfoByLogin
 }
