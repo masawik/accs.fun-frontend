@@ -29,6 +29,18 @@ type TLoginResponse = {
   login: string
 }
 
+export type TMail = {
+  subject: string,
+  from: string,
+  to: string,
+  date: string,
+  uid: string
+}
+
+type TMailDataResponse = {
+  mails: TMail[]
+}
+
 const instance = axios.create({
   baseURL: 'http://localhost:8989'
 })
@@ -49,9 +61,11 @@ export const userAPI = {
   }
 }
 
-
-
-
+export const mailAPI = {
+  getMails() {
+    return instance.get<TResponse<TMailDataResponse>>('/get-mails').then(res => res.data)
+  }
+}
 
 
 
