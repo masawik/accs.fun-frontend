@@ -1,9 +1,10 @@
 import React, {Dispatch, useEffect} from 'react'
-import {RouteComponentProps} from "react-router-dom";
-import {connect} from "react-redux";
-import {TRootState} from "../../../redux/rootReducer";
-import {getMailBody} from "../../../redux/mail/mailActions";
-import LoadingWrapper from "../../Layout/LoadingWrapper/LoadingWrapper";
+import {RouteComponentProps} from "react-router-dom"
+import {connect} from "react-redux"
+import {TRootState} from "../../../redux/rootReducer"
+import {getMailBody} from "../../../redux/mail/mailActions"
+import LoadingWrapper from "../../Layout/LoadingWrapper/LoadingWrapper"
+import parse from 'html-react-parser'
 
 type TMailProps = {
   mailBody: string | null,
@@ -15,6 +16,7 @@ const Mail: React.FC<RouteComponentProps<{uid: string}> & TMailProps> = (props) 
   const uid = props.match.params.uid
   const {mailBody, isFetching, onLoadMail} = props
 
+
   useEffect(() => {
     if (!mailBody) {
       onLoadMail(uid)
@@ -24,9 +26,9 @@ const Mail: React.FC<RouteComponentProps<{uid: string}> & TMailProps> = (props) 
   return (
     <>
       {
-        isFetching
+        isFetching || !mailBody
         ? <LoadingWrapper />
-        : mailBody
+        : parse(mailBody)
       }
     </>
   )
