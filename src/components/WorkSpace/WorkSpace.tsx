@@ -3,7 +3,8 @@ import Header from "./Header/Header";
 import MailList from "./MailList/MailList";
 import {TRootState} from "../../redux/rootReducer";
 import {connect} from "react-redux";
-import { Redirect } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import Mail from "./Mail/Mail";
 
 type TWorkSpaceProps = {
   login: string | null
@@ -14,7 +15,10 @@ const WorkSpace: React.FC<TWorkSpaceProps> = ({login}) => {
   return (
     <>
       <Header/>
-      <MailList/>
+      <Switch>
+        <Route path='/dashboard/mail/:uid' component={Mail}/>
+        <Route path='/dashboard' component={MailList}/>
+      </Switch>
     </>
   )
 }

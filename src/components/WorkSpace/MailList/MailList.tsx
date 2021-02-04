@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import {TRootState} from "../../../redux/rootReducer";
 import {TMail} from "../../../redux/api";
 import {mailFetch} from "../../../redux/mail/mailActions";
+import {Link} from "react-router-dom";
 
 type TMailListProps = {
   isFetching: boolean,
@@ -33,7 +34,8 @@ const MailList: React.FC<TMailListProps> = ({mails, isFetching, onLoadMails}) =>
   const $mails = mails?.map((i) => {
     const dateString = formatDate(i.date)
     return (
-      <li
+      <Link
+        to={`/dashboard/mail/${i.uid}`}
         key={i.uid}
         className="list-group-item list-group-item-action d-flex justify-content-between"
         style={{cursor: 'pointer'}}
@@ -41,7 +43,7 @@ const MailList: React.FC<TMailListProps> = ({mails, isFetching, onLoadMails}) =>
         <span className='fw-bold d-inline-block'>{i.from}</span>
         <span className='text-muted'>{i.subject}</span>
         <span>{dateString}</span>
-      </li>
+      </Link>
     )
   })
 

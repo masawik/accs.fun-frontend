@@ -50,13 +50,15 @@ app.get('/get-mails', (req, res) => {
 })
 
 app.get('/get-body', (req, res) => {
-  const to = req.query.to
+  const cookies = req.cookies
+  if (!isAuthorized(cookies)) return res.json(7)
+  const to = cookies.login
   let uid = req.query.uid
-  if (isToInvalid(to) || !uid) return res.json(createResponse(4))
+  if (!uid) return res.json(createResponse(4))
 
   getMailBody(to, uid)
     .then(
-      (result) => res.send(result),
+      (result) => res.json(createResponse({body: result})),
       (error) => res.json(error)
     )
 })

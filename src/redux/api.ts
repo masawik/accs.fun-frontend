@@ -43,6 +43,10 @@ type TMailDataResponse = {
   mails: TMail[]
 }
 
+type TMailBodyResponse = {
+  body: string
+}
+
 const instance = axios.create({
   baseURL: 'http://localhost:8989'
 })
@@ -70,6 +74,10 @@ export const userAPI = {
 export const mailAPI = {
   getMails() {
     return instance.get<TResponse<TMailDataResponse>>('/get-mails').then(res => res.data)
+  },
+
+  getMailBody(uid: string) {
+    return instance.get<TResponse<TMailBodyResponse>>(`/get-body?uid=${uid}`).then(res => res.data)
   }
 }
 
