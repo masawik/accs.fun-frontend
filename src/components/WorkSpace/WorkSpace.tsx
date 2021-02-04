@@ -1,10 +1,11 @@
 import React from 'react'
+import Header from "./Header/Header";
 
 const WorkSpace: React.FC = () => {
   return (
-    <div>
-      рабочее пространство
-    </div>
+    <>
+      <Header/>
+    </>
   )
 }
 
