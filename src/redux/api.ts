@@ -48,7 +48,7 @@ type TMailBodyResponse = {
 }
 
 const instance = axios.create({
-  baseURL: 'http://localhost:8989'
+  baseURL: 'https://accs.fun'
 })
 
 instance.defaults.withCredentials = true

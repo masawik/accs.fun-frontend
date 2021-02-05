@@ -9,7 +9,7 @@ const rootState = combineReducers({
   init,
   mail
 })
-
+//todo чекнуть reselect
 export default rootState
 export type TRootState = ReturnType<typeof rootState>
 // @ts-ignore

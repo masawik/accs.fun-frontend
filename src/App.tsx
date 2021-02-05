@@ -9,6 +9,7 @@ import './app.GLOBAL.css'
 
 type TAppProps = TDispatchProps
 //todo обработать ошибки подключения к серверу на этапе инициализации
+//todo обработать ошибки подключения к imap серверу
 const App: React.FC<TAppProps> = ({onInit}) => {
 
   useEffect(()=> {
