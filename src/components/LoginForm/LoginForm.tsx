@@ -75,7 +75,7 @@ const LoginForm: React.FC<TLoginFormProps> = ({onLogin, isFetching, errorMessage
             "form-control col-8",
             {'is-invalid': loginError}
           )}
-          id="login"
+          placeholder='login'
           required
           disabled={isFetching}
         />
@@ -97,7 +97,6 @@ const LoginForm: React.FC<TLoginFormProps> = ({onLogin, isFetching, errorMessage
       </div>
 
       <div className="mb-3">
-        <label htmlFor="password" className="form-label">Password</label>
         <input
           value={password}
           onChange={(e) => {
@@ -105,7 +104,7 @@ const LoginForm: React.FC<TLoginFormProps> = ({onLogin, isFetching, errorMessage
           }}
           type="password"
           className="form-control"
-          id='password'
+          placeholder='password'
           required
           disabled={isFetching}
         />
