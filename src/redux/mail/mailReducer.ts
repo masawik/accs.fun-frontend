@@ -26,7 +26,7 @@ const mailReducer = (state = initialState, action: TMailActionTypes | TSharedAct
     case MAIL_FETCH_ERROR:
       return {...state, isFetching: false}
     case MAIL_FETCH_SUCCESS:
-      return {...state, isFetching: false, mails: action.payload.mails}
+      return {...state, isFetching: false, mails: action.payload.mails.reverse()}
     case MAIL_BODY_FETCH_START:
       return {...state, isFetching: true, currentMailBody: null }
     case MAIL_BODY_FETCH_SUCCESS:

@@ -48,9 +48,9 @@ const MailList: React.FC<TMailListProps> = ({mails, isFetching, onLoadMails}) =>
     )
   })
 
-  const $plug = $mails
-    ? null
-    : <Plug text='No mails'/>
+  const $plug = !$mails && !isFetching
+    ? <Plug text='No mails'/>
+    : null
 
   return (
     <div>

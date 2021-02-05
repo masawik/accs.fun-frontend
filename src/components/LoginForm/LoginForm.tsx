@@ -9,10 +9,10 @@ import { Redirect } from 'react-router-dom';
 type TLoginFormProps = TMapDispatchToProps & TMapStateToProps
 
 const LoginForm: React.FC<TLoginFormProps> = ({onLogin, isFetching, errorMessage, currentLogin}) => {
-  const [login, setLogin] = useState('samanthacasexu')
+  const [login, setLogin] = useState('')
   const [loginError, setLoginError] = useState<string | false>(false)
   const [domain, setDomain] = useState('egsabuser.mcdir.ru')
-  const [password, setPassword] = useState('l6fm3uGlwR')
+  const [password, setPassword] = useState('')
 
   if (currentLogin) return <Redirect to='/dashboard'/>
 
