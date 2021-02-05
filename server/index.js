@@ -84,8 +84,8 @@ app.post('/login', (req, res) => {
           return res.json(createResponse(2))
         })
     })
-    .catch(() => {
-      res.json(createResponse(2))
+    .catch(e => {
+      res.json(e)
     })
 })
 
@@ -120,6 +120,8 @@ app.post('/delete-account', async (req, res) => {
   getHashByLogin(login)
     .then(hash => {
       if (!isMatchPassword(password, hash)) return res.json(createResponse(6))
+      res.cookie('login', '', {maxAge: 0, httpOnly: true});
+      res.cookie('key', '', {maxAge: 0, httpOnly: true});
       deleteAccountInfoByLogin(login)
         .then(() => {
           res.json(createResponse('ok'))

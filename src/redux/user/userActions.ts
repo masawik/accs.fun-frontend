@@ -41,7 +41,6 @@ export const onLogout = (): TThunkType<any> => {
 export const onDeleteAccount = (password: string): TThunkType<any> => {
   return async dispatch => {
     dispatch(fetchingStart())
-
     const resp = await userAPI.deleteAccount(password)
     const {code, data} = resp
     if (code !== EResponseCodes.success) return dispatch(deleteError(data.errorMessage))
