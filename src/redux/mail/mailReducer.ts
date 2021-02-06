@@ -22,7 +22,7 @@ const mailReducer = (state = initialState, action: TMailActionTypes | TSharedAct
     case CLEAR_ALL_STATES:
       return initialState
     case MAIL_FETCH_START:
-      return {...state, isFetching: true}
+      return {...state, isFetching: true, currentMailBody: null}
     case MAIL_FETCH_ERROR:
       return {...state, isFetching: false}
     case MAIL_FETCH_SUCCESS:

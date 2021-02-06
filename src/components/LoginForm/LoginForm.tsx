@@ -10,10 +10,10 @@ import {DOMAINS} from "../../redux/api";
 type TLoginFormProps = TMapDispatchToProps & TMapStateToProps
 
 const LoginForm: React.FC<TLoginFormProps> = ({onLogin, isFetching, errorMessage, currentLogin}) => {
-  const [login, setLogin] = useState('madelynfloydn5')
+  const [login, setLogin] = useState('')
   const [loginError, setLoginError] = useState<string | false>(false)
   const [domain, setDomain] = useState('egsabuser.mcdir.ru')
-  const [password, setPassword] = useState('B9c2jHlZQd')
+  const [password, setPassword] = useState('')
 
   if (currentLogin) return <Redirect to='/dashboard'/>
 
