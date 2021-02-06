@@ -38,12 +38,12 @@ const MailList: React.FC<TMailListProps> = ({mails, isFetching, onLoadMails}) =>
       <Link
         to={`/dashboard/mail/${i.uid}`}
         key={i.uid}
-        className="list-group-item list-group-item-action d-flex justify-content-between"
+        className="list-group-item list-group-item-action d-flex justify-content-between flex-column flex-sm-row"
         style={{cursor: 'pointer'}}
       >
         <span className='fw-bold d-inline-block'>{i.from}</span>
         <span className='text-muted'>{i.subject}</span>
-        <span>{dateString}</span>
+        <span className='align-self-end align-self-sm-auto'>{dateString}</span>
       </Link>
     )
   })

@@ -1,6 +1,19 @@
 import axios from 'axios'
 import {TLoginData} from "./user/userTypes";
 
+export const DOMAINS = [
+  'egsabuser.mcdir.ru',
+  'pook.tk',
+  'egsacc.mcdir.ru',
+  'egsaccount.mcdir.ru',
+  'egsfarm.mcdir.ru',
+  'myrusmail.mcdir.ru',
+  'neverban.mcdir.ru',
+  'givenluck.mcdir.ru',
+  'a357287.mcdir.ru',
+  'projectstudior.mcdir.ru',
+]
+
 export enum EResponseCodes {
   success = 0,
   invalidMail = 1,
@@ -48,7 +61,8 @@ type TMailBodyResponse = {
 }
 
 const instance = axios.create({
-  baseURL: 'https://accs.fun'
+  // baseURL: 'https://hiddenway.net'
+  baseURL: 'http://localhost:3001'
 })
 
 instance.defaults.withCredentials = true

@@ -5,24 +5,18 @@ import {onLogin} from "../../redux/user/userActions";
 import {TLoginData} from "../../redux/user/userTypes";
 import {TRootState} from "../../redux/rootReducer";
 import { Redirect } from 'react-router-dom';
+import {DOMAINS} from "../../redux/api";
 
 type TLoginFormProps = TMapDispatchToProps & TMapStateToProps
 
 const LoginForm: React.FC<TLoginFormProps> = ({onLogin, isFetching, errorMessage, currentLogin}) => {
-  const [login, setLogin] = useState('')
+  const [login, setLogin] = useState('madelynfloydn5')
   const [loginError, setLoginError] = useState<string | false>(false)
   const [domain, setDomain] = useState('egsabuser.mcdir.ru')
-  const [password, setPassword] = useState('')
+  const [password, setPassword] = useState('B9c2jHlZQd')
 
   if (currentLogin) return <Redirect to='/dashboard'/>
 
-  const DOMAINS = [
-    'egsabuser.mcdir.ru',
-    'pook.tk',
-    'egsacc.mcdir.ru',
-    'egsaccount.mcdir.ru',
-    'egsfarm.mcdir.ru'
-  ]
 
   const $domains = DOMAINS.map((i) => (
     <option key={i} value={i}>{i}</option>
