@@ -1,0 +1,26 @@
+.wrapper {
+    background-color: rgba(0,0,0, .5);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+.container {
+    width: 90%;
+    padding: 30px;
+    background-color: var(--plate-light);
+    border: 2px solid var(--invalid);
+    border-radius: 15px;
+    position: fixed;
+    top: 20px;
+    z-index: 15;
+}
+
+.title {
+    display: inline-block;
+    font-size: 36px;
+    margin: 20px auto;
+}

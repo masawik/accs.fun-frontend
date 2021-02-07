@@ -1,11 +1,12 @@
 import React, {ChangeEvent, Dispatch, FormEvent, useState} from 'react'
 import cn from 'classnames'
-import {connect} from "react-redux";
-import {onLogin} from "../../redux/user/userActions";
-import {TLoginData} from "../../redux/user/userTypes";
-import {TRootState} from "../../redux/rootReducer";
-import { Redirect } from 'react-router-dom';
-import {DOMAINS} from "../../redux/api";
+import {connect} from "react-redux"
+import {onLogin} from "../../redux/user/userActions"
+import {TLoginData} from "../../redux/user/userTypes"
+import {TRootState} from "../../redux/rootReducer"
+import {Redirect} from 'react-router-dom'
+import {DOMAINS} from "../../redux/api"
+import styles from './LoginForm.module.css'
 
 type TLoginFormProps = TMapDispatchToProps & TMapStateToProps
 
@@ -51,71 +52,78 @@ const LoginForm: React.FC<TLoginFormProps> = ({onLogin, isFetching, errorMessage
   }
 
   return (
-    <form
-      onSubmit={formSubmit}
-      className='col-sm-10 col-md-8 col-lg-6 offset-sm-1 offset-md-2 offset-lg-3 mt-5'
-    >
-      {
-        errorMessage
-          ? <div className="alert alert-danger" role="alert">{errorMessage}</div>
-          : null
-      }
-      <div className="input-group mb-3">
-        <input
-          value={login}
-          onChange={handleLogin}
-          type="text"
-          className={cn(
-            "form-control col-8",
-            {'is-invalid': loginError}
-          )}
-          placeholder='login'
-          required
-          disabled={isFetching}
-        />
+    <div className={styles.container}>
+      <h1 className={styles.title}>
+        <span className={styles.title__marked}>ACCS</span>.FUN
+      </h1>
+      <form
+        onSubmit={formSubmit}
+        className={cn('plate-light', styles.form)}
+      >
+        <div className={styles.loginBox}>
+          {(loginError || errorMessage) && <span className={cn('invalid', styles.alert)}>{loginError || errorMessage}</span>}
+          <input
+            value={login}
+            onChange={handleLogin}
+            type="text"
+            className={cn(
+              styles.loginInput,
+              {'invalid': (Boolean(loginError) || Boolean(errorMessage))}
+            )}
+            placeholder='login'
+            required
+            disabled={isFetching}
+          />
 
-        <span className="input-group-text">@</span>
+          <div className={styles.domainSelectorBox}>
+            <select
+              value={domain}
+              onChange={(e) => {
+                setDomain(e.target.value)
+              }}
+              className={styles.domainSelector}
+              disabled={isFetching}
+            >
+              {$domains}
+            </select>
+            <svg version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 451.847 451.847">
+              <g>
+                <path
+                  d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751		c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0		c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"/>
+              </g>
+            </svg>
+          </div>
+        </div>
 
-        <select
-          value={domain}
-          onChange={(e) => {
-            setDomain(e.target.value)
-          }}
-          className="form-select"
-          disabled={isFetching}
-        >
-          {$domains}
-        </select>
-        {loginError && <div className="invalid-feedback">{loginError}</div>}
-
-      </div>
-
-      <div className="mb-3">
         <input
           value={password}
           onChange={(e) => {
             setPassword(e.target.value)
           }}
           type="password"
-          className="form-control"
           placeholder='password'
           required
+          className={cn({'invalid': Boolean(errorMessage)})}
           disabled={isFetching}
         />
-      </div>
 
-      <button
-        type="submit"
-        className="btn btn-primary"
-        disabled={isFetching}
-      >
-        {
-          isFetching
-            ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>
-            : 'Log in'
-        }
-      </button>
-    </form>
+        <button
+          type="submit"
+          className={cn(
+            'btn',
+            styles.submitBtn,
+            {[styles.submitBtnShrink]: isFetching}
+          )}
+          disabled={isFetching}
+        >
+          {
+            isFetching
+              ? <span className={cn('spinner', styles.spinner)} />
+              : 'Log in'
+          }
+        </button>
+      </form>
+    </div>
   )
 }
 
@@ -124,7 +132,6 @@ type TMapStateToProps = {
   errorMessage: string | null,
   currentLogin: string | null
 }
-
 const mapStateToProps = (state: TRootState): TMapStateToProps => ({
   isFetching: state.user.isFetching,
   errorMessage: state.user.loginErrorMessage,

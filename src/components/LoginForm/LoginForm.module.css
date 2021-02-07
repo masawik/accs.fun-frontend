@@ -1,0 +1,139 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    padding: 0 10px;
+}
+
+.title {
+    font-size: 48px;
+}
+
+.title__marked {
+    color: var(--primary);
+}
+
+.form {
+    padding: 40px 20px;
+    width: 100%;
+}
+
+.loginBox {
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.alert {
+    position: absolute;
+    font-size: 14px;
+    top: -25px;
+    left: 15px;
+}
+
+.loginInput {
+    border-radius: 15px 15px 0 0;
+    position: relative;
+    border-bottom: none;
+}
+
+.loginInput:focus {
+    border-bottom: 1px solid var(--primary);
+}
+
+.loginInput:focus + .domainSelectorBox > .domainSelector {
+    border-top: none;
+}
+
+.domainSelectorBox {
+    position: relative;
+}
+
+.domainSelectorBox::before {
+    content: '@';
+    color: var(--muted-text);
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 20px;
+}
+
+.domainSelectorBox > svg {
+    height: 20px;
+    width: 20px;
+    fill: var(--muted-text);
+    position: absolute;
+    right: 10px;
+    top: 22px;
+}
+
+.domainSelector {
+    padding-left: 42px;
+    margin-top: -1px;
+    border-radius: 0 0 15px 15px;
+    position: relative;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.domainSelector:focus + svg {
+    fill: var(--primary);
+}
+
+.submitBtn {
+    display: block;
+    width: 100%;
+    margin: 30px auto 0 auto;
+    transition-property: width!important;
+}
+
+.spinner {
+    margin: -3px auto -4px auto;
+}
+
+.submitBtnShrink {
+    padding: 16px 0 !important;
+    width: 78px !important;
+}
+
+
+select > option {
+    background-color: var(--background);
+}
+
+@media all and (min-width: 767px) {
+    .form {
+        width: 748px;
+    }
+
+    .submitBtn {
+        width: 250px;
+    }
+
+    .loginBox {
+        display: flex;
+        align-items: center;
+    }
+
+    .loginInput {
+        border-radius: 15px 0 0 15px;
+        border-bottom: 1px solid var(--input-border);;
+        border-right: none;
+    }
+
+    .loginInput:focus {
+        border-right: 1px solid var(--primary);
+    }
+
+    .loginInput:focus + .domainSelectorBox > .domainSelector {
+        border-top: 1px solid var(--input-border);
+        border-left: none;
+    }
+
+    .domainSelector {
+        border-radius: 0 15px 15px 0;
+        width: 250px;
+    }
+}

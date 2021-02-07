@@ -1,0 +1,137 @@
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 200px;
+}
+
+.header button {
+    color: var(--white);
+    font-size: 12px;
+}
+
+.title {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.buttonsBox {
+    display: flex;
+    background-color: var(--plate);
+    width: 90%;
+    max-width: 692px;
+    border-radius: 50px;
+    align-items: center;
+    position: relative;
+}
+
+.goBackBtn, .refreshBtn {
+    background-color: var(--success);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    transition-property: transform;
+    transition-duration: .3s;
+    z-index: 5;
+    position: absolute;
+    left: calc(50% - 22px);
+}
+
+.refreshBtn__text {
+    display: none;
+}
+
+.goBackBtn {
+    color: var(--white);
+    text-decoration: none;
+}
+
+.refreshBtn:focus, .goBackBtn:focus {
+    transform: scale(0.95);
+}
+
+.refreshBtn:disabled, .goBackBtn:disabled {
+    background-color: var(--success-muted);
+}
+
+.goBackBtn > svg, .refreshBtn > svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--white);
+}
+
+.goBackBtn > svg {
+    transform: translate(10px, 10px) rotate(180deg);
+}
+
+.spinning > svg {
+    animation: rotate 1s linear infinite;
+}
+
+.logoutBtn, .deleteBtn {
+    height: 100%;
+    padding: 0 15px;
+}
+
+.deleteBtn, .logoutBtn {
+    width: 50%;
+    padding: 10px 5px;
+}
+
+.deleteBtn {
+    border-radius:  25px 0 0 25px;
+}
+
+.deleteBtn:focus {
+    background-color: var(--invalid);
+}
+
+.logoutBtn {
+    border-radius: 0 25px 25px 0;
+}
+
+.logoutBtn:focus {
+    background-color: var(--yellow);
+}
+
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@media all and (min-width: 767px) {
+    .title {
+        font-size: 26px;
+        margin-bottom: 40px;
+    }
+
+    .refreshBtn, .goBackBtn {
+        width: 90px;
+        height: 90px;
+        left: calc(50% - 45px);
+    }
+
+    .deleteBtn, .logoutBtn {
+        padding: 20px 5px;
+    }
+
+    .refreshBtn > svg, .goBackBtn > svg {
+        height: 30px;
+        width: 30px;
+    }
+
+    .goBackBtn > svg {
+        height: 40px;
+        width: 40px;
+        transform: translate(22px, 24px) rotate(180deg);
+    }
+
+    .header button {
+        font-size: 20px;
+    }
+
+    .refreshBtn__text {
+        display: inline;
+    }
+}

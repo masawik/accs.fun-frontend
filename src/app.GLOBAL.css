@@ -1,3 +1,130 @@
+@font-face {
+    font-family: 'skModernist';
+    src: local('skModernist'), url(./fonts/Sk-Modernist-Regular.woff2) format('woff2');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'skModernist';
+    src: local('skModernist'), url(./fonts/Sk-Modernist-Bold.woff2) format('woff2');
+    font-weight: bold;
+}
+
+:root {
+    --background: #191A32;
+    --primary: #33E6F6;
+    --text: #fff;
+    --border-white: #fff;
+    --white: #fff;
+    --muted-text: #999CAD;
+    --plate: #0F101E;
+    --plate-light: #151529;
+    --input-border: #323755;
+    --invalid: #FF2060;
+    --invalid-background: #ff9797;
+    --input-hover-backgroud: rgba(51, 230, 246, 0.1);
+    --success: #31d99c;
+    --success-muted: rgb(38, 144, 110);
+    --yellow: #FFD2A7;
+    --yellow-backgroun: #ffcfb5;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 body {
+    font-family: skModernist, sans-serif;
+    background-color: var(--background);
+    color: var(--text);
     padding-bottom: 20px;
+}
+
+.plate-light {
+    background-color: var(--plate-light);
+    border-radius: 15px;
+}
+
+.plate {
+    background-color: var(--plate);
+    border-radius: 15px;
+}
+
+input, select {
+    color: var(--text);
+    background-color: transparent;
+    border: 1px solid var(--input-border);
+    border-radius: 15px;
+    outline: none;
+    padding: 21px 20px;
+    width: 100%;
+}
+
+input:focus, select:focus {
+    border: 1px solid var(--primary);
+}
+
+.btn, input, select {
+    transition-duration: .3s;
+    transition-property: background-color, color, border-color;
+    transition-timing-function: ease-in-out;
+}
+
+button {
+    background-color: transparent;
+    outline: none;
+    transition-property: background-color;
+    transition-duration: .3s;
+    border: none;
+}
+
+.btn {
+    font-weight: bold;
+    color: var(--text);
+    padding: 16px;
+    border: 1px solid var(--border-white);
+    border-radius: 10px;
+}
+
+.btn:active {
+    transition-property: transform;
+    transition-duration: .1s;
+    transform: scale(0.99);
+}
+
+.btn:focus {
+    background-color: var(--primary);
+    color: var(--background);
+    border: 1px solid var(--primary);
+}
+
+span.invalid {
+    color: var(--invalid);
+}
+
+input.invalid {
+    border: 1px solid var(--invalid)!important;
+}
+
+.btn:hover, input:hover, select:hover {
+    background-color: var(--input-hover-backgroud);
+}
+
+.spinner {
+    display: block;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    border: 5px solid var(--primary);
+    border-top-color: transparent;
+    border-left-color: transparent;
+    animation: rotate .6s linear infinite;
+    position: relative;
+}
+
+
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
 }
