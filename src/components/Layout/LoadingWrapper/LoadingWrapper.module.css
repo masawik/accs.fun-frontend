@@ -1,0 +1,38 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.text {
+    margin-top: 20px;
+    font-size: 44px;
+}
+
+.loader {
+    width: 300px;
+    height: 20px;
+    border-radius: 20px;
+    background-color: var(--white);
+    position: relative;
+    overflow: hidden;
+}
+
+.loader::after {
+    content: '';
+    background-color: var(--success);
+    height: 20px;
+    width: 80px;
+    border-radius: 20px;
+    position: absolute;
+    left: -80px;
+    animation: left-right 3s ease-in-out infinite;
+}
+
+@keyframes left-right {
+    50% {
+        left: 100%;
+    }
+}
