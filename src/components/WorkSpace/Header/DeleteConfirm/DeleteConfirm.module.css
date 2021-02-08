@@ -1,0 +1,50 @@
+.passwordInputBox {
+    margin-bottom: 30px;
+}
+
+.passwordInput__label {
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.passwordInput {
+    padding: 15px 20px;
+}
+
+.buttonBox {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.deleteBtn:hover,
+.deleteBtn:focus {
+    background-color: var(--invalid)!important;
+}
+
+.cancelBtn:hover,
+.cancelBtn:focus {
+    background-color: var(--yellow)!important;
+}
+
+.cancelBtn {
+    border: 1px solid var(--yellow)!important;
+}
+
+.deleteBtn {
+    min-width: 68px;
+    margin-left: 10px;
+    border: 1px solid var(--invalid)!important;
+}
+
+.spinner {
+    display: inline-block;
+    margin: -5px auto;
+    border-color: var(--white)!important;
+    border-top-color: transparent!important;
+    border-left-color: transparent!important;
+}
+
+.cancelBtn:active,
+.deleteBtn:active {
+    transform: scale(0.95);
+}

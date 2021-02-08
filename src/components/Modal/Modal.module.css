@@ -10,9 +10,9 @@
 
 .container {
     width: 90%;
+    max-width: 550px;
     padding: 30px;
     background-color: var(--plate-light);
-    border: 2px solid var(--invalid);
     border-radius: 15px;
     position: fixed;
     top: 20px;
@@ -21,6 +21,21 @@
 
 .title {
     display: inline-block;
-    font-size: 36px;
-    margin: 20px auto;
+    font-size: 20px;
+    margin: 0 0 20px 0;
+}
+
+.header {
+    position: relative;
+}
+
+.closeBtn {
+    font-size: 22px !important;
+    position: absolute;
+    right: -20px;
+    top: -25px;
+}
+
+.closeBtn:hover {
+    color: var(--muted-text);
 }

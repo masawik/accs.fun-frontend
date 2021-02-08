@@ -4,6 +4,9 @@ import {TRootState} from "../../../redux/rootReducer";
 import {TMail} from "../../../redux/api";
 import {getMails} from "../../../redux/mail/mailActions";
 import {Link} from "react-router-dom";
+import cn from "classnames";
+import styles from './MailList.module.css'
+
 
 type TMailListProps = {
   isFetching: boolean,
@@ -21,7 +24,6 @@ function formatDate(dateString: string) {
   return `${addZero(date.getHours())}:${addZero(date.getMinutes())}:${addZero(date.getSeconds())} ${addZero(date.getDay())}-${addZero(date.getMonth() + 1)}-${addZero(date.getFullYear())}`
 }
 
-//todo переделать отображение загрузки писем на алерт
 const Plug: React.FC<{ text: string }> = ({text}) => (
   <span className="list-group-item list-group-item-action d-flex justify-content-center"><span
     className='text-muted'>{text}</span></span>)
@@ -35,16 +37,16 @@ const MailList: React.FC<TMailListProps> = ({mails, isFetching, onLoadMails}) =>
   const $mails = mails?.map((i) => {
     const dateString = formatDate(i.date)
     return (
-      <Link
-        to={`/dashboard/mail/${i.uid}`}
-        key={i.uid}
-        className="list-group-item list-group-item-action d-flex justify-content-between flex-column flex-sm-row"
-        style={{cursor: 'pointer'}}
-      >
-        <span className='fw-bold d-inline-block'>{i.from}</span>
-        <span className='text-muted'>{i.subject}</span>
-        <span className='align-self-end align-self-sm-auto'>{dateString}</span>
-      </Link>
+      <li className={styles.mailItem}>
+        <Link
+          to={`/dashboard/mail/${i.uid}`}
+          key={i.uid}
+        >
+          <div className={styles.from}>{i.from}</div>
+          <div className={styles.subject}>{i.subject}</div>
+          <div className={styles.date}>{dateString}</div>
+        </Link>
+      </li>
     )
   })
 
@@ -53,12 +55,10 @@ const MailList: React.FC<TMailListProps> = ({mails, isFetching, onLoadMails}) =>
     : null
 
   return (
-    <div>
-      <ul className="list-group">
-        {$plug}
-        {$mails}
-      </ul>
-    </div>
+    <ul className={cn('plate-light', styles.container)}>
+      {$plug}
+      {$mails}
+    </ul>
   )
 }
 

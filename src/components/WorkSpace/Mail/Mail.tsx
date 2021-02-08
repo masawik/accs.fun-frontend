@@ -5,6 +5,7 @@ import {TRootState} from "../../../redux/rootReducer"
 import {getMailBody} from "../../../redux/mail/mailActions"
 import LoadingWrapper from "../../Layout/LoadingWrapper/LoadingWrapper"
 import parse from 'html-react-parser'
+import styles from './Mail.module.css'
 
 type TMailProps = {
   mailBody: string | null,
@@ -29,9 +30,7 @@ const Mail: React.FC<RouteComponentProps<{uid: string}> & TMailProps> = (props) 
         isFetching || !mailBody
         ? <LoadingWrapper />
         : (
-          <div
-            style={{border: '1px solid black'}}
-          >
+          <div className={styles.container}>
               {parse(mailBody)}
           </div>
           )

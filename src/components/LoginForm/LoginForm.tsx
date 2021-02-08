@@ -50,6 +50,8 @@ const LoginForm: React.FC<TLoginFormProps> = ({onLogin, isFetching, errorMessage
       password: password
     })
   }
+  //todo убрать костыль
+  const isAuthError = errorMessage === 'wrong password' || errorMessage === 'invalid auth data'
 
   return (
     <div className={styles.container}>
@@ -68,7 +70,7 @@ const LoginForm: React.FC<TLoginFormProps> = ({onLogin, isFetching, errorMessage
             type="text"
             className={cn(
               styles.loginInput,
-              {'invalid': (Boolean(loginError) || Boolean(errorMessage))}
+              {'invalid': (Boolean(loginError) || isAuthError)}
             )}
             placeholder='login'
             required
@@ -103,7 +105,7 @@ const LoginForm: React.FC<TLoginFormProps> = ({onLogin, isFetching, errorMessage
           type="password"
           placeholder='password'
           required
-          className={cn({'invalid': Boolean(errorMessage)})}
+          className={cn({'invalid': Boolean(isAuthError)})}
           disabled={isFetching}
         />
 

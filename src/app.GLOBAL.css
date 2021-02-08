@@ -40,6 +40,21 @@ body {
     padding-bottom: 20px;
 }
 
+.container {
+    padding: 0 10px;
+}
+
+li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: var(--text);
+}
+
 .plate-light {
     background-color: var(--plate-light);
     border-radius: 15px;
@@ -110,6 +125,8 @@ input.invalid {
     background-color: var(--input-hover-backgroud);
 }
 
+/*todo убрать общие стили кнопок*/
+
 .spinner {
     display: block;
     height: 25px;
@@ -122,6 +139,11 @@ input.invalid {
     position: relative;
 }
 
+@media all and (min-width: 767px){
+    .container {
+        padding: 0 10px;
+    }
+}
 
 @keyframes rotate {
     100% {

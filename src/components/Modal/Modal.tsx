@@ -9,14 +9,18 @@ type TModalProps = {
 const Modal: React.FC<TModalProps> = ({children, onClose}) => {
   return (
     <>
-      <div className={styles.wrapper}/>
+      <div onClick={onClose} className={styles.wrapper}/>
 
       <div className={styles.container}>
-        <div className="modal-dialog">
+        <div className={styles.header}>
               <h5 className={styles.title}>DELETE THIS ACCOUNT</h5>
-              <button onClick={onClose} type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
-            </div>
-            {children}
+              <button
+                onClick={onClose}
+                type="button"
+                className={styles.closeBtn}
+              >&times;</button>
+        </div>
+        {children}
       </div>
     </>
   )

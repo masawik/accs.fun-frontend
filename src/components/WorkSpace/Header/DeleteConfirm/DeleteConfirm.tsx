@@ -4,6 +4,7 @@ import Modal from "../../../Modal/Modal";
 import {TRootState} from "../../../../redux/rootReducer";
 import {onDeleteAccount} from "../../../../redux/user/userActions";
 import {connect} from "react-redux";
+import styles from './DeleteConfirm.module.css'
 
 type TDeleteConfirm = {
   onClose: () => void,
@@ -29,29 +30,29 @@ const DeleteConfirm: React.FC<TDeleteConfirm> = ({onClose, onDelete, isUserFetch
     >
       <form
         onSubmit={onSubmitDeleteAccount}
-        className="modal-body"
       >
-        <div className="mb-3">
-          <label htmlFor="password" className="form-label">password</label>
+        <div className={styles.passwordInputBox}>
+          <label htmlFor="password" className={styles.passwordInput__label}>password</label>
           <input
             value={modalPassword}
             onChange={modalPasswordHandler}
             type="password"
             className={cn(
-              'form-control',
-              {'is-invalid': deleteErrorMessage}
+              styles.passwordInput,
+              {'invalid': deleteErrorMessage}
             )}
             id="password"
             required
           />
-          {deleteErrorMessage && <div className="invalid-feedback d-block fs-6">{deleteErrorMessage}</div>}
+          {deleteErrorMessage && <span className='invalid'>{deleteErrorMessage}</span>}
         </div>
-        <div className="modal-footer">
-          <button onClick={onClose} type="button" className="btn btn-warning">cancel</button>
-          <button type="submit" className="btn btn-danger">
+
+        <div className={styles.buttonBox}>
+          <button onClick={onClose} type="button" className={cn('btn', styles.cancelBtn)}>cancel</button>
+          <button type="submit" className={cn('btn', styles.deleteBtn)}>
             {
               isUserFetching
-                ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>
+                ? <span className={cn('spinner', styles.spinner)}/>
                 : 'delete'
             }
           </button>

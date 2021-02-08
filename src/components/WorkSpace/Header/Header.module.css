@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 200px;
 }
 
 .header button {
@@ -18,7 +17,7 @@
 .buttonsBox {
     display: flex;
     background-color: var(--plate);
-    width: 90%;
+    width: 100%;
     max-width: 692px;
     border-radius: 50px;
     align-items: center;
@@ -46,8 +45,13 @@
     text-decoration: none;
 }
 
+.refreshBtn:hover, .goBackBtn:hover,
 .refreshBtn:focus, .goBackBtn:focus {
-    transform: scale(0.95);
+    transform: scale(0.98);
+}
+
+.refreshBtn:active, .goBackBtn:active {
+    transform: scale(0.90);
 }
 
 .refreshBtn:disabled, .goBackBtn:disabled {
@@ -68,21 +72,22 @@
     animation: rotate 1s linear infinite;
 }
 
-.logoutBtn, .deleteBtn {
-    height: 100%;
-    padding: 0 15px;
-}
-
 .deleteBtn, .logoutBtn {
     width: 50%;
     padding: 10px 5px;
+    transition-property: box-shadow, background-color;
+    transition-duration: .3s;
 }
 
 .deleteBtn {
-    border-radius:  25px 0 0 25px;
+    border-radius:  50px 0 0 50px;
 }
 
-.deleteBtn:focus {
+.deleteBtn:hover, .deleteBtn:focus {
+    box-shadow: 1px 1px 0 var(--invalid) inset, 1px -1px 0 var(--invalid) inset;
+}
+
+.deleteBtn:active {
     background-color: var(--invalid);
 }
 
@@ -90,7 +95,11 @@
     border-radius: 0 25px 25px 0;
 }
 
-.logoutBtn:focus {
+.logoutBtn:hover, .logoutBtn:focus {
+    box-shadow: -1px 1px 0 var(--yellow) inset, -1px -1px 0 var(--yellow) inset;
+}
+
+.logoutBtn:active {
     background-color: var(--yellow);
 }
 
