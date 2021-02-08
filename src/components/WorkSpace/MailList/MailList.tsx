@@ -37,10 +37,9 @@ const MailList: React.FC<TMailListProps> = ({mails, isFetching, onLoadMails}) =>
   const $mails = mails?.map((i) => {
     const dateString = formatDate(i.date)
     return (
-      <li className={styles.mailItem}>
+      <li key={i.uid} className={styles.mailItem}>
         <Link
           to={`/dashboard/mail/${i.uid}`}
-          key={i.uid}
         >
           <div className={styles.from}>{i.from}</div>
           <div className={styles.subject}>{i.subject}</div>
