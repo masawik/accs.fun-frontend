@@ -1,7 +1,6 @@
-import React, {useEffect} from 'react'
-import {useDispatch, useSelector} from "react-redux";
+import React from 'react'
+import {useSelector} from "react-redux";
 import {TRootState} from "../../../redux/rootReducer";
-import {getMails} from "../../../redux/mail/mailActions";
 import {Link} from "react-router-dom";
 import cn from "classnames";
 import styles from './MailList.module.css'
@@ -22,13 +21,10 @@ const Plug: React.FC<{ text: string }> = ({text}) => (
     className='text-muted'>{text}</span></span>)
 
 const MailList: React.FC = () => {
-  const dispatch = useDispatch()
   const isFetching = useSelector((state: TRootState) => state.mail.isFetching)
   const mails = useSelector((state: TRootState) => state.mail.mails)
 
-  useEffect(() => {
-    dispatch(getMails())
-  }, [dispatch])
+
 
   const $mails = mails?.map((i) => {
     const dateString = formatDate(i.date)

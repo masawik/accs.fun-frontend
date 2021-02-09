@@ -30,6 +30,7 @@ const mailFetchSuccess = (mails: TMail[]):TMailFetchSuccess => ({
 
 const mailBodyFetchStart = ():TMailBodyFetchStart => ({type: MAIL_BODY_FETCH_START})
 const mailBodyFetchSuccess = (mailBody: string):TMailBodyFetchSuccess => ({type: MAIL_BODY_FETCH_SUCCESS, payload: {mailBody}})
+//todo обработать ошибку unauthorized
 const mailBodyFetchError = (errorMessage: string):TMailBodyFetchError => ({type: MAIL_BODY_FETCH_ERROR, errorMessage})
 
 export const getMails = (): TThunkType<TMailActionTypes | TSharedActionTypes> => {
