@@ -33,7 +33,7 @@ export type TError = {
   errorMessage: string
 }
 
-type TResponse<T> = {
+export type TResponse<T> = {
   code: EResponseCodes,
   data: T & TError
 }
@@ -60,6 +60,7 @@ type TMailBodyResponse = {
   body: string
 }
 
+//todo изменить при деплое
 const instance = axios.create({
   // baseURL: 'https://hiddenway.net'
   baseURL: 'http://localhost:3001'

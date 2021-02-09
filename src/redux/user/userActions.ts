@@ -10,9 +10,10 @@ import {
   TUserActionsTypes,
   TUserFetchingStart,
 } from "./userTypes"
-import {TThunkType} from "../rootReducer";
-import {EResponseCodes, userAPI} from "../api";
-import {clearAllStates} from "../shared/sharedActions";
+import {TThunkType} from "../rootReducer"
+import {EResponseCodes, userAPI} from "../api"
+import {clearAllStates, genericErrorHandler} from "../shared/sharedActions"
+import {TSharedActionTypes} from "../shared/sharedTypes"
 
 export const setUserLogin = (login: string): TSetUserLogin => ({type: SET_USER_LOGIN, payload: login})
 const fetchingStart = (): TUserFetchingStart => ({type: FETCHING_START})
@@ -37,13 +38,13 @@ export const onLogout = (): TThunkType<any> => {
   }
 }
 
-// проблема с типизацией. должна быть TThunkType<TUserActionsTypes | TSharedActionTypes>
-export const onDeleteAccount = (password: string): TThunkType<any> => {
+export const onDeleteAccount = (password: string): TThunkType<TUserActionsTypes | TSharedActionTypes> => {
   return async dispatch => {
     dispatch(fetchingStart())
-    const resp = await userAPI.deleteAccount(password)
-    const {code, data} = resp
-    if (code !== EResponseCodes.success) return dispatch(deleteError(data.errorMessage))
-    return dispatch(clearAllStates())
+    const {code, data} = await userAPI.deleteAccount(password)
+    genericErrorHandler(dispatch, code, () => {
+      if (code !== EResponseCodes.success) return dispatch(deleteError(data.errorMessage))
+      return dispatch(clearAllStates())
+    })
   }
 }

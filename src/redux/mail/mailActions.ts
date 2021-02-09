@@ -16,7 +16,7 @@ import {
 
 import {EResponseCodes, mailAPI, TMail} from "../api";
 import {TThunkType} from "../rootReducer";
-import {clearAllStates} from "../shared/sharedActions";
+import {genericErrorHandler} from "../shared/sharedActions";
 import {TSharedActionTypes} from "../shared/sharedTypes";
 
 const mailFetchStart = ():TMailFetchStart => ({type: MAIL_FETCH_START})
@@ -31,31 +31,27 @@ const mailFetchSuccess = (mails: TMail[]):TMailFetchSuccess => ({
 
 const mailBodyFetchStart = ():TMailBodyFetchStart => ({type: MAIL_BODY_FETCH_START})
 const mailBodyFetchSuccess = (mailBody: string):TMailBodyFetchSuccess => ({type: MAIL_BODY_FETCH_SUCCESS, payload: {mailBody}})
-//todo обработать ошибку unauthorized
 const mailBodyFetchError = (errorMessage: string):TMailBodyFetchError => ({type: MAIL_BODY_FETCH_ERROR, errorMessage})
 
 export const getMails = (): TThunkType<TMailActionTypes | TSharedActionTypes> => {
   return async dispatch => {
     dispatch(mailFetchStart())
-    const mailsInfo = await mailAPI.getMails()
-    const {code, data} = mailsInfo
-    if (code !== EResponseCodes.success) {
-      if (code === EResponseCodes.unauthorized) return dispatch(clearAllStates())
-      return dispatch(mailFetchError(data.errorMessage))
-    }
-    return dispatch(mailFetchSuccess(data.mails))
+    const {code, data} = await mailAPI.getMails()
+    genericErrorHandler(dispatch, code, () => {
+      if (code !== EResponseCodes.success) return dispatch(mailFetchError(data.errorMessage))
+      return dispatch(mailFetchSuccess(data.mails))
+    })
   }
 }
 
 export const getMailBody = (uid: string): TThunkType<TMailActionTypes | TSharedActionTypes> => {
   return async dispatch => {
     dispatch(mailBodyFetchStart())
-    const mailBodyInfo = await mailAPI.getMailBody(uid)
-    const {code, data} = mailBodyInfo
-    if (code !== EResponseCodes.success) {
-      if (code === EResponseCodes.unauthorized) return dispatch(clearAllStates())
-      return dispatch(mailBodyFetchError(data.errorMessage))
-    }
-    return dispatch(mailBodyFetchSuccess(data.body))
+    const {code, data} = await mailAPI.getMailBody(uid)
+
+    genericErrorHandler(dispatch, code, () => {
+      if (code !== EResponseCodes.success) return dispatch(mailBodyFetchError(data.errorMessage))
+      return dispatch(mailBodyFetchSuccess(data.body))
+    })
   }
 }

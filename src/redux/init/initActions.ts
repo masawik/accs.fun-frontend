@@ -11,11 +11,11 @@ type TInitThunkActionTypes = TUserActionsTypes | TInitActionsTypes
 
 export const init = (): TThunkType<TInitThunkActionTypes> => async dispatch => {
   dispatch(initStart())
-  const needLogin = await userAPI.needLogin()
+  const needLoginInfo = await userAPI.needLogin()
   //todo обработать ошибку
-  if (needLogin.code !== EResponseCodes.success) console.log('error')
+  if (needLoginInfo.code !== EResponseCodes.success) console.log('error')
 
-  if (!needLogin.data.needLogin) {
+  if (!needLoginInfo.data.needLogin) {
     const userData = await userAPI.getUserData()
     dispatch(setUserLogin(userData.data.login))
   }
