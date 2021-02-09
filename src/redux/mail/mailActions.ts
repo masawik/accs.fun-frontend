@@ -13,6 +13,7 @@ import {
   TMailFetchStart,
   TMailFetchSuccess
 } from "./mailTypes";
+
 import {EResponseCodes, mailAPI, TMail} from "../api";
 import {TThunkType} from "../rootReducer";
 import {clearAllStates} from "../shared/sharedActions";

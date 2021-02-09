@@ -4,7 +4,7 @@ import {useDispatch} from "react-redux"
 import Layout from "./components/Layout/Layout"
 import {init} from "./redux/init/initActions"
 import WorkSpace from "./components/WorkSpace/WorkSpace"
-import {Redirect, Route, Switch } from 'react-router-dom'
+import {Redirect, Route, Switch} from 'react-router-dom'
 import './app.GLOBAL.css'
 
 //todo обработать ошибки подключения к серверу на этапе инициализации
@@ -12,27 +12,25 @@ import './app.GLOBAL.css'
 const App: React.FC = () => {
   const dispatch = useDispatch()
 
-  useEffect(()=> {
+  useEffect(() => {
     dispatch(init())
   }, [dispatch])
 
   return (
     <Layout>
-      <div className='container'>
-        <Switch>
-          <Route path='/login'>
-            <LoginForm/>
-          </Route>
+      <Switch>
+        <Route path='/login'>
+          <LoginForm/>
+        </Route>
 
-          <Route path='/dashboard'>
-            <WorkSpace/>
-          </Route>
+        <Route path='/dashboard'>
+          <WorkSpace/>
+        </Route>
 
-          <Route path='/'>
-            <Redirect to='/login'/>
-          </Route>
-        </Switch>
-      </div>
+        <Route path='/'>
+          <Redirect to='/login'/>
+        </Route>
+      </Switch>
     </Layout>
   )
 }

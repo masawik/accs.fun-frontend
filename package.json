@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "axios": "^0.21.1",
-    "bootstrap": "^5.0.0-beta1",
     "classnames": "^2.2.6",
     "html-react-parser": "^1.2.4",
     "normalize.css": "^8.0.1",
@@ -14,6 +13,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {

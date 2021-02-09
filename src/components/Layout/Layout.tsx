@@ -11,13 +11,13 @@ const Layout: React.FC<TLayoutProps> = ({children}) => {
   const isFetching = useSelector((state: TRootState) => state.init.isFetching)
 
   return (
-    <>
+    <div className='container'>
       {
         isFetching
           ? <LoadingWrapper/>
           : children
       }
-    </>
+    </div>
   )
 }
 
