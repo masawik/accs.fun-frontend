@@ -15,16 +15,9 @@ function formatDate(dateString: string) {
   return `${addZero(date.getHours())}:${addZero(date.getMinutes())}:${addZero(date.getSeconds())} ${addZero(date.getDay())}-${addZero(date.getMonth() + 1)}-${addZero(date.getFullYear())}`
 }
 
-//todo стилизовать заглушку
-const Plug: React.FC<{ text: string }> = ({text}) => (
-  <span className="list-group-item list-group-item-action d-flex justify-content-center"><span
-    className='text-muted'>{text}</span></span>)
-
 const MailList: React.FC = () => {
   const isFetching = useSelector((state: TRootState) => state.mail.isFetching)
   const mails = useSelector((state: TRootState) => state.mail.mails)
-
-
 
   const $mails = mails?.map((i) => {
     const dateString = formatDate(i.date)
@@ -42,7 +35,9 @@ const MailList: React.FC = () => {
   })
 
   const $plug = !$mails && !isFetching
-    ? <Plug text='No mails'/>
+    ? <li className={styles.mailItem} style={{display: 'flex', justifyContent: 'center'}}>
+          <div className={styles.from}>No Mails</div>
+      </li>
     : null
 
   return (
