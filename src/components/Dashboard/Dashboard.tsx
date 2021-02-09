@@ -1,22 +1,22 @@
 import React, {useEffect} from 'react'
 import Header from "./Header/Header";
 import MailList from "./MailList/MailList";
-import {TRootState} from "../../redux/rootReducer";
 import {useDispatch, useSelector} from "react-redux";
-import { Redirect, Route, Switch } from 'react-router-dom';
+import {Redirect, Route, Switch} from 'react-router-dom';
 import Mail from "./Mail/Mail";
 import {getMails} from "../../redux/mail/mailActions";
+import {TRootState} from "../../redux/rootReducer";
 
-const WorkSpace: React.FC = () => {
+const Dashboard: React.FC = () => {
   const dispatch = useDispatch()
   const login = useSelector((state: TRootState) => state.user.login)
 
   useEffect(() => {
+    if (!login) return
     dispatch(getMails())
-  }, [dispatch])
+  }, [dispatch, login])
 
   if (!login) return <Redirect to='/login'/>
-
   return (
     <>
       <Header/>
@@ -28,4 +28,4 @@ const WorkSpace: React.FC = () => {
   )
 }
 
-export default WorkSpace
+export default Dashboard

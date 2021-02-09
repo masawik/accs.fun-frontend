@@ -3,7 +3,7 @@ import LoginForm from "./components/LoginForm/LoginForm"
 import {useDispatch} from "react-redux"
 import Layout from "./components/Layout/Layout"
 import {init} from "./redux/init/initActions"
-import WorkSpace from "./components/WorkSpace/WorkSpace"
+import Dashboard from "./components/Dashboard/Dashboard"
 import {Redirect, Route, Switch} from 'react-router-dom'
 import './app.GLOBAL.css'
 
@@ -24,11 +24,11 @@ const App: React.FC = () => {
         </Route>
 
         <Route path='/dashboard'>
-          <WorkSpace/>
+          <Dashboard/>
         </Route>
 
-        <Route path='/'>
-          <Redirect to='/login'/>
+        <Route path='/*'>
+          <Redirect to='/dashboard'/>
         </Route>
       </Switch>
     </Layout>
