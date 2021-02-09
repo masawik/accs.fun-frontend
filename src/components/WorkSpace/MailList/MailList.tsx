@@ -1,18 +1,10 @@
-import React, {Dispatch, useEffect} from 'react'
-import {connect} from "react-redux";
+import React, {useEffect} from 'react'
+import {useDispatch, useSelector} from "react-redux";
 import {TRootState} from "../../../redux/rootReducer";
-import {TMail} from "../../../redux/api";
 import {getMails} from "../../../redux/mail/mailActions";
 import {Link} from "react-router-dom";
 import cn from "classnames";
 import styles from './MailList.module.css'
-
-
-type TMailListProps = {
-  isFetching: boolean,
-  mails: TMail[] | null,
-  onLoadMails: () => void
-}
 
 function addZero(i: number): string {
   const str = i + ''
@@ -24,15 +16,19 @@ function formatDate(dateString: string) {
   return `${addZero(date.getHours())}:${addZero(date.getMinutes())}:${addZero(date.getSeconds())} ${addZero(date.getDay())}-${addZero(date.getMonth() + 1)}-${addZero(date.getFullYear())}`
 }
 
+//todo стилизовать заглушку
 const Plug: React.FC<{ text: string }> = ({text}) => (
   <span className="list-group-item list-group-item-action d-flex justify-content-center"><span
     className='text-muted'>{text}</span></span>)
 
-const MailList: React.FC<TMailListProps> = ({mails, isFetching, onLoadMails}) => {
+const MailList: React.FC = () => {
+  const dispatch = useDispatch()
+  const isFetching = useSelector((state: TRootState) => state.mail.isFetching)
+  const mails = useSelector((state: TRootState) => state.mail.mails)
 
   useEffect(() => {
-    onLoadMails()
-  }, [])
+    dispatch(getMails())
+  }, [dispatch])
 
   const $mails = mails?.map((i) => {
     const dateString = formatDate(i.date)
@@ -61,15 +57,4 @@ const MailList: React.FC<TMailListProps> = ({mails, isFetching, onLoadMails}) =>
   )
 }
 
-
-const mapStateToProps = (state: TRootState) => ({
-  isFetching: state.mail.isFetching,
-  mails: state.mail.mails
-})
-
-const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-  onLoadMails: () => dispatch(getMails())
-})
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(MailList)
+export default MailList

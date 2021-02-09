@@ -1,36 +1,36 @@
-import React, {Dispatch, useState} from 'react'
-import {connect} from "react-redux"
+import React, {useState} from 'react'
+import {useDispatch, useSelector} from "react-redux"
 import {TRootState} from "../../../redux/rootReducer"
 import {getMails} from "../../../redux/mail/mailActions"
-import {onDeleteAccount, onLogout} from "../../../redux/user/userActions"
 import {Link, useLocation} from 'react-router-dom'
 import DeleteConfirm from "./DeleteConfirm/DeleteConfirm"
 import cn from "classnames";
 import styles from './Header.module.css'
+import {onLogout} from "../../../redux/user/userActions";
 
+const Header: React.FC = () => {
+  const dispatch = useDispatch()
+  const isMailFetching = useSelector((state: TRootState) => state.mail.isFetching)
+  const login = useSelector((state: TRootState) => state.user.login)
 
-type THeaderProps = {
-  isMailFetching: boolean,
-  onLoadMails: () => void,
-  onLogout: () => void,
-  login: string | null
-}
-
-const Header: React.FC<THeaderProps> = ({isMailFetching, onLoadMails, onLogout, login}) => {
-  const [isDeleteConfirmVisible, setIsDeleteConfirmVisible] = useState(false)
+  const [isDeleteConfirmModalVisible, setIsDeleteConfirmModalVisible] = useState(false)
 
   const location = useLocation()
   const isInMail = /\/dashboard\/mail\/.+/.test(location.pathname)
 
-  const toggleDeleteConfirm = () => {
-    setIsDeleteConfirmVisible(prevState => !prevState)
+  const onLoadMails = () => {dispatch(getMails())}
+  const logout = () => {dispatch(onLogout())}
+
+  const toggleDeleteConfirmModal = () => {
+    setIsDeleteConfirmModalVisible(prevState => !prevState)
   }
 
   const $goBackBtn = (
     <Link to='/dashboard' className={styles.goBackBtn}>
-      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"	 viewBox="0 0 492.004 492.004"><g>	<g>		<path d="M382.678,226.804L163.73,7.86C158.666,2.792,151.906,0,144.698,0s-13.968,2.792-19.032,7.86l-16.124,16.12			c-10.492,10.504-10.492,27.576,0,38.064L293.398,245.9l-184.06,184.06c-5.064,5.068-7.86,11.824-7.86,19.028			c0,7.212,2.796,13.968,7.86,19.04l16.124,16.116c5.068,5.068,11.824,7.86,19.032,7.86s13.968-2.792,19.032-7.86L382.678,265			c5.076-5.084,7.864-11.872,7.848-19.088C390.542,238.668,387.754,231.884,382.678,226.804z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"	 viewBox="0 0 492.004 492.004"><g>	<g>		<path d="M382.678,226.804L163.73,7.86C158.666,2.792,151.906,0,144.698,0s-13.968,2.792-19.032,7.86l-16.124,16.12			c-10.492,10.504-10.492,27.576,0,38.064L293.398,245.9l-184.06,184.06c-5.064,5.068-7.86,11.824-7.86,19.028			c0,7.212,2.796,13.968,7.86,19.04l16.124,16.116c5.068,5.068,11.824,7.86,19.032,7.86s13.968-2.792,19.032-7.86L382.678,265			c5.076-5.084,7.864-11.872,7.848-19.088C390.542,238.668,387.754,231.884,382.678,226.804z"/>	</g></g><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/></svg>
     </Link>
   )
+
   const $refreshBtn = (
     <button
       type="button"
@@ -46,7 +46,7 @@ const Header: React.FC<THeaderProps> = ({isMailFetching, onLoadMails, onLogout, 
     <button
       type="button"
       className={cn(styles.sideBtn, styles.deleteBtn)}
-      onClick={toggleDeleteConfirm}
+      onClick={toggleDeleteConfirmModal}
     >
       delete account
     </button>
@@ -55,7 +55,7 @@ const Header: React.FC<THeaderProps> = ({isMailFetching, onLoadMails, onLogout, 
     <button
       type="button"
       className={cn(styles.logoutBtn)}
-      onClick={onLogout}
+      onClick={logout}
     >
       logout
     </button>
@@ -71,22 +71,9 @@ const Header: React.FC<THeaderProps> = ({isMailFetching, onLoadMails, onLogout, 
         {!isInMail && $refreshBtn}
         {$logoutBtn}
       </div>
-      {isDeleteConfirmVisible && <DeleteConfirm onClose={toggleDeleteConfirm}/>}
+      {isDeleteConfirmModalVisible && <DeleteConfirm onClose={toggleDeleteConfirmModal}/>}
     </nav>
   )
 }
 
-const mapStateToProps = (state: TRootState) => ({
-  isMailFetching: state.mail.isFetching,
-  login: state.user.login,
-  isUserFetching: state.user.isFetching,
-  deleteErrorMessage: state.user.deleteErrorMessage
-})
-
-const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-  onLoadMails: () => dispatch(getMails()),
-  onLogout: () => dispatch(onLogout()),
-  onDelete: (password: string) => dispatch(onDeleteAccount(password))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header)
+export default Header

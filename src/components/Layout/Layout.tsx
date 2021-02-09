@@ -1,27 +1,24 @@
 import React from 'react'
 import {TRootState} from "../../redux/rootReducer";
-import {connect} from "react-redux";
+import {useSelector} from "react-redux";
 import LoadingWrapper from "./LoadingWrapper/LoadingWrapper";
 
 type TLayoutProps = {
-  children: any,
-  isFetching: boolean
+  children: React.ReactNode
 }
 //todo добавить алерты
-const Layout: React.FC<TLayoutProps> = ({children, isFetching}) => {
+const Layout: React.FC<TLayoutProps> = ({children}) => {
+  const isFetching = useSelector((state: TRootState) => state.init.isFetching)
+
   return (
-    <div>
+    <>
       {
         isFetching
           ? <LoadingWrapper/>
           : children
       }
-    </div>
+    </>
   )
 }
 
-const mapStateToProps = (state: TRootState) => ({
-  isFetching: state.init.isFetching
-})
-
-export default connect(mapStateToProps)(Layout)
+export default Layout

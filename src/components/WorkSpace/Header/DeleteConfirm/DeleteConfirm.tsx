@@ -1,19 +1,22 @@
-import React, {ChangeEvent, Dispatch, FormEvent, useState} from 'react'
+import React, {ChangeEvent, FormEvent, useState} from 'react'
 import cn from "classnames";
 import Modal from "../../../Modal/Modal";
 import {TRootState} from "../../../../redux/rootReducer";
 import {onDeleteAccount} from "../../../../redux/user/userActions";
-import {connect} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import styles from './DeleteConfirm.module.css'
 
 type TDeleteConfirm = {
-  onClose: () => void,
-  onDelete: (password: string) => void,
-  isUserFetching: boolean,
-  deleteErrorMessage: string | null
+  onClose: () => void
 }
 
-const DeleteConfirm: React.FC<TDeleteConfirm> = ({onClose, onDelete, isUserFetching, deleteErrorMessage}) => {
+const DeleteConfirm: React.FC<TDeleteConfirm> = ({onClose}) => {
+  const dispatch = useDispatch()
+  const deleteErrorMessage = useSelector((state: TRootState) => state.user.deleteErrorMessage)
+  const isUserFetching = useSelector((state: TRootState) => state.user.isFetching)
+
+  const onDelete = (password: string) => {dispatch(onDeleteAccount(password))}
+
   const [modalPassword, setModalPassword] = useState('')
 
   const modalPasswordHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -62,13 +65,4 @@ const DeleteConfirm: React.FC<TDeleteConfirm> = ({onClose, onDelete, isUserFetch
   )
 }
 
-const mapStateToProps = (state: TRootState) => ({
-  isUserFetching: state.user.isFetching,
-  deleteErrorMessage: state.user.deleteErrorMessage
-})
-
-const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-  onDelete: (password: string) => dispatch(onDeleteAccount(password))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(DeleteConfirm)
+export default DeleteConfirm

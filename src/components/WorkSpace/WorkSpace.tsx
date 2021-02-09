@@ -2,15 +2,12 @@ import React from 'react'
 import Header from "./Header/Header";
 import MailList from "./MailList/MailList";
 import {TRootState} from "../../redux/rootReducer";
-import {connect} from "react-redux";
+import {useSelector} from "react-redux";
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Mail from "./Mail/Mail";
 
-type TWorkSpaceProps = {
-  login: string | null
-}
-
-const WorkSpace: React.FC<TWorkSpaceProps> = ({login}) => {
+const WorkSpace: React.FC = () => {
+  const login = useSelector((state: TRootState) => state.user.login)
   if (!login) return <Redirect to='/login'/>
 
   return (
@@ -24,9 +21,4 @@ const WorkSpace: React.FC<TWorkSpaceProps> = ({login}) => {
   )
 }
 
-const mapStateToProps = (state: TRootState) => ({
-  login: state.user.login
-})
-
-
-export default connect(mapStateToProps)(WorkSpace)
+export default WorkSpace

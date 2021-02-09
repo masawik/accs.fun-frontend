@@ -1,27 +1,24 @@
-import React, {ChangeEvent, Dispatch, FormEvent, useState} from 'react'
+import React, {ChangeEvent, FormEvent, useState} from 'react'
 import cn from 'classnames'
-import {connect} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
 import {onLogin} from "../../redux/user/userActions"
-import {TLoginData} from "../../redux/user/userTypes"
 import {TRootState} from "../../redux/rootReducer"
 import {Redirect} from 'react-router-dom'
 import {DOMAINS} from "../../redux/api"
 import styles from './LoginForm.module.css'
 
-type TLoginFormProps = TMapDispatchToProps & TMapStateToProps
+const LoginForm: React.FC = () => {
+  const dispatch = useDispatch()
+  const isFetching = useSelector((state: TRootState) => state.user.isFetching)
+  const errorMessage = useSelector((state: TRootState) => state.user.loginErrorMessage)
+  const currentLogin = useSelector((state: TRootState) => state.user.login)
 
-const LoginForm: React.FC<TLoginFormProps> = ({onLogin, isFetching, errorMessage, currentLogin}) => {
   const [login, setLogin] = useState('')
   const [loginError, setLoginError] = useState<string | false>(false)
   const [domain, setDomain] = useState('egsabuser.mcdir.ru')
   const [password, setPassword] = useState('')
 
   if (currentLogin) return <Redirect to='/dashboard'/>
-
-
-  const $domains = DOMAINS.map((i) => (
-    <option key={i} value={i}>{i}</option>
-  ))
 
   const handleLogin = (e: ChangeEvent<HTMLInputElement>): void => {
     let val = e.target.value.trim()
@@ -45,13 +42,18 @@ const LoginForm: React.FC<TLoginFormProps> = ({onLogin, isFetching, errorMessage
   const formSubmit = (e: FormEvent): void => {
     e.preventDefault()
     const fullLogin = `${login}@${domain}`
-    onLogin({
+    dispatch(onLogin({
       login: fullLogin,
       password: password
-    })
+    }))
   }
-  //todo убрать костыль
+
+  //todo переделать проверку типа ошибки
   const isAuthError = errorMessage === 'wrong password' || errorMessage === 'invalid auth data'
+
+  const $domains = DOMAINS.map((i) => (
+    <option key={i} value={i}>{i}</option>
+  ))
 
   return (
     <div className={styles.container}>
@@ -129,22 +131,4 @@ const LoginForm: React.FC<TLoginFormProps> = ({onLogin, isFetching, errorMessage
   )
 }
 
-type TMapStateToProps = {
-  isFetching: boolean,
-  errorMessage: string | null,
-  currentLogin: string | null
-}
-const mapStateToProps = (state: TRootState): TMapStateToProps => ({
-  isFetching: state.user.isFetching,
-  errorMessage: state.user.loginErrorMessage,
-  currentLogin: state.user.login
-})
-
-type TMapDispatchToProps = {
-  onLogin: (data: TLoginData) => void
-}
-const mapDispatchToProps = (dispatch: Dispatch<any>): TMapDispatchToProps => ({
-  onLogin: (data: TLoginData) => dispatch(onLogin(data)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)
+export default LoginForm
